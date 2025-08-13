@@ -1,0 +1,2513 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Слуцк — историческая жемчужина Беларуси</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css">
+    <style>
+        :root {
+            --primary-color: #1e5799;
+            --secondary-color: #2989d8;
+            --accent-color: #ffcc00;
+            --text-color: #333;
+            --light-text: #fff;
+            --bg-color: #f5f5f5;
+            --card-bg: #fff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: var(--light-text);
+            padding: 30px 0;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo span {
+            color: var(--accent-color);
+            margin-left: 10px;
+        }
+        
+        .logo-icon {
+            font-size: 36px;
+            margin-right: 15px;
+            color: var(--accent-color);
+        }
+        
+        .slogan {
+            font-size: 18px;
+            font-style: italic;
+            opacity: 0.9;
+            text-align: right;
+        }
+        
+
+        nav {
+            background-color: var(--secondary-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: center;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-tabs li {
+            position: relative;
+        }
+        
+        .nav-tabs li a {
+            display: block;
+            padding: 18px 25px;
+            color: var(--light-text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .nav-tabs li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background-color: var(--accent-color);
+            transition: var(--transition);
+        }
+        
+        .nav-tabs li a:hover::after,
+        .nav-tabs li.active a::after {
+            width: 80%;
+        }
+        
+        .nav-tabs li a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-tabs li.active a {
+            font-weight: 600;
+        }
+        
+
+        main {
+            padding: 50px 0;
+            background-color: var(--card-bg);
+            min-height: 80vh;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+
+        h1, h2, h3, h4 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        h1 {
+            font-size: 42px;
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            padding-bottom: 20px;
+            line-height: 1.3;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background-color: var(--accent-color);
+            border-radius: 2px;
+        }
+        
+        h2 {
+            font-size: 32px;
+            margin-top: 50px;
+            border-left: 5px solid var(--secondary-color);
+            padding-left: 20px;
+            line-height: 1.3;
+        }
+        
+        h3 {
+            font-size: 26px;
+            margin-top: 35px;
+            position: relative;
+            padding-left: 15px;
+        }
+        
+        h3::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            height: 20px;
+            width: 5px;
+            background-color: var(--accent-color);
+            border-radius: 3px;
+        }
+        
+        p {
+            margin-bottom: 20px;
+            text-align: justify;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+        
+        a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        a:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+        
+
+        .coat-of-arms {
+            text-align: center;
+            margin: 40px 0;
+            background-color: rgba(30, 87, 153, 0.05);
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid rgba(30, 87, 153, 0.1);
+        }
+        
+        .coat-of-arms img {
+            max-width: 220px;
+            height: auto;
+            border: 3px solid var(--primary-color);
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transition: var(--transition);
+        }
+        
+        .coat-of-arms img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .coat-of-arms p {
+            font-style: italic;
+            margin-top: 20px;
+            text-align: center;
+            color: #555;
+            font-size: 18px;
+        }
+        
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            height: 220px;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            color: white;
+            padding: 15px;
+            transform: translateY(0);
+            opacity: 1;
+            transition: var(--transition);
+        }
+        
+
+        #map {
+            height: 500px;
+            width: 100%;
+            margin: 40px 0;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            border: 1px solid #ddd;
+            z-index: 1;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+        
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+            border-radius: 2px;
+        }
+        
+        .timeline-item {
+            padding: 15px 50px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background-color: var(--card-bg);
+            border: 4px solid var(--secondary-color);
+            border-radius: 50%;
+            top: 20px;
+            z-index: 1;
+            transition: var(--transition);
+        }
+        
+        .timeline-item:hover::after {
+            background-color: var(--accent-color);
+            border-color: var(--primary-color);
+            transform: scale(1.1);
+        }
+        
+        .left {
+            left: 0;
+        }
+        
+        .right {
+            left: 50%;
+        }
+        
+        .left::after {
+            right: -16px;
+        }
+        
+        .right::after {
+            left: -16px;
+        }
+        
+        .timeline-content {
+            padding: 25px;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--secondary-color);
+            transition: var(--transition);
+        }
+        
+        .timeline-item:hover .timeline-content {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .right .timeline-content {
+            border-left: none;
+            border-right: 4px solid var(--secondary-color);
+        }
+        
+        .timeline-year {
+            font-weight: bold;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .timeline-year::before {
+            content: '';
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+
+        .attractions {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 35px;
+            margin: 40px 0;
+        }
+        
+        .attraction-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .attraction-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .attraction-image {
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .attraction-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .attraction-card:hover .attraction-image img {
+            transform: scale(1.1);
+        }
+        
+        .attraction-info {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .attraction-info h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+            font-size: 22px;
+        }
+        
+        .attraction-info p {
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        
+        .attraction-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 15px;
+            margin-top: auto;
+        }
+        
+        .attraction-meta i {
+            margin-right: 5px;
+            color: var(--secondary-color);
+        }
+        
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 35px;
+            margin: 40px 0;
+        }
+        
+        .contact-card {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            border-top: 4px solid var(--secondary-color);
+            transition: var(--transition);
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .contact-card h3 {
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            font-size: 22px;
+        }
+        
+        .contact-card h3 i {
+            margin-right: 15px;
+            color: var(--secondary-color);
+            font-size: 26px;
+        }
+        
+        .contact-card ul {
+            list-style: none;
+            margin-top: 20px;
+        }
+        
+        .contact-card ul li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            line-height: 1.5;
+        }
+        
+        .contact-card ul li i {
+            margin-right: 15px;
+            color: var(--secondary-color);
+            width: 20px;
+            text-align: center;
+            margin-top: 3px;
+        }
+        
+
+        .weather-widget {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            margin: 30px 0;
+            text-align: center;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .weather-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .weather-city {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .weather-date {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .weather-main {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .weather-temp {
+            font-size: 48px;
+            font-weight: bold;
+            margin-right: 20px;
+        }
+        
+        .weather-icon {
+            font-size: 60px;
+            color: var(--accent-color);
+        }
+        
+        .weather-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            text-align: left;
+        }
+        
+        .weather-detail {
+            display: flex;
+            align-items: center;
+        }
+        
+        .weather-detail i {
+            margin-right: 10px;
+            color: var(--secondary-color);
+            width: 20px;
+            text-align: center;
+        }
+        
+
+        .facts {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+        
+        .fact-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+            border-top: 4px solid var(--secondary-color);
+        }
+        
+        .fact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .fact-icon {
+            font-size: 40px;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+        
+        .fact-number {
+            font-size: 36px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .fact-title {
+            font-size: 18px;
+            color: #555;
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; 
+            height: 0;
+            overflow: hidden;
+            margin: 40px 0;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+ 
+        footer {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: var(--light-text);
+            padding: 60px 0 30px;
+            position: relative;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            color: var(--accent-color);
+            margin-bottom: 25px;
+            font-size: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-column ul li a {
+            color: var(--light-text);
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+        }
+        
+        .footer-column ul li a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--accent-color);
+            transform: translateX(5px);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: var(--light-text);
+            transition: var(--transition);
+            font-size: 18px;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 15px;
+            opacity: 0.8;
+        }
+        
+
+        .scroll-top {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--secondary-color);
+            color: var(--light-text);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            font-size: 22px;
+        }
+        
+        .scroll-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .scroll-top:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-5px);
+        }
+        
+
+        .breadcrumbs {
+            padding: 15px 0;
+            margin-bottom: 30px;
+            font-size: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .breadcrumbs a {
+            color: #666;
+        }
+        
+        .breadcrumbs a:hover {
+            color: var(--secondary-color);
+        }
+        
+        .breadcrumbs span {
+            color: #999;
+            margin: 0 10px;
+        }
+        
+
+        @media (max-width: 992px) {
+            h1 {
+                font-size: 36px;
+            }
+            
+            h2 {
+                font-size: 28px;
+            }
+            
+            h3 {
+                font-size: 24px;
+            }
+            
+            .nav-tabs li a {
+                padding: 15px 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo {
+                margin-bottom: 15px;
+                justify-content: center;
+            }
+            
+            .slogan {
+                text-align: center;
+            }
+            
+            .nav-tabs {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .nav-tabs li {
+                flex: 1 0 auto;
+                text-align: center;
+            }
+            
+            .nav-tabs li a {
+                padding: 12px 15px;
+                font-size: 14px;
+            }
+            
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 80px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item::after {
+                left: 21px;
+            }
+            
+            .left::after, .right::after {
+                left: 21px;
+            }
+            
+            .right {
+                left: 0;
+            }
+            
+            .timeline-content {
+                padding: 20px;
+            }
+            
+            .scroll-top {
+                width: 50px;
+                height: 50px;
+                bottom: 30px;
+                right: 30px;
+                font-size: 20px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            h1 {
+                font-size: 30px;
+                padding-bottom: 15px;
+            }
+            
+            h2 {
+                font-size: 26px;
+            }
+            
+            h3 {
+                font-size: 22px;
+            }
+            
+            .coat-of-arms img {
+                max-width: 180px;
+            }
+            
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+            
+            .attractions, .contact-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .weather-details {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .hero {
+            position: relative;
+            height: 500px;
+            overflow: hidden;
+            margin-bottom: 50px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+        
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+        }
+        
+        .hero-title {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .hero-subtitle {
+            font-size: 22px;
+            margin-bottom: 30px;
+            max-width: 700px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        
+        .hero-btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            border-radius: 50px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .hero-btn:hover {
+            background-color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            text-decoration: none;
+        }
+
+        .stats {
+            background-color: var(--primary-color);
+            padding: 60px 0;
+            color: white;
+            margin: 50px 0;
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .stat-number {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--accent-color);
+        }
+        
+        .stat-label {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .testimonials {
+            margin: 60px 0;
+        }
+        
+        .testimonial-slider {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .testimonial {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            margin: 20px;
+            position: relative;
+        }
+        
+        .testimonial::before {
+            content: '"';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 60px;
+            color: rgba(30, 87, 153, 0.1);
+            font-family: serif;
+            line-height: 1;
+        }
+        
+        .testimonial-content {
+            font-style: italic;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+            border: 3px solid var(--secondary-color);
+        }
+        
+        .author-info h4 {
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+        
+        .author-info p {
+            color: #666;
+            font-size: 14px;
+            margin: 0;
+        }
+        
+        .newsletter {
+            background-color: var(--secondary-color);
+            padding: 50px 0;
+            color: white;
+            text-align: center;
+            margin: 50px 0;
+            border-radius: 10px;
+        }
+        
+        .newsletter h2 {
+            color: white;
+            margin-bottom: 20px;
+        }
+        
+        .newsletter p {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .newsletter-input {
+            flex-grow: 1;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 50px 0 0 50px;
+            font-size: 16px;
+            outline: none;
+        }
+        
+        .newsletter-btn {
+            padding: 15px 30px;
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            border: none;
+            border-radius: 0 50px 50px 0;
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .newsletter-btn:hover {
+            background-color: white;
+        }
+
+        .events {
+            margin: 60px 0;
+        }
+        
+        .event-card {
+            display: flex;
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            transition: var(--transition);
+        }
+        
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .event-date {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-width: 100px;
+        }
+        
+        .event-day {
+            font-size: 36px;
+            font-weight: bold;
+            line-height: 1;
+        }
+        
+        .event-month {
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .event-content {
+            padding: 25px;
+            flex-grow: 1;
+        }
+        
+        .event-title {
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        .event-meta {
+            display: flex;
+            margin-bottom: 15px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .event-meta span {
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .event-meta i {
+            margin-right: 5px;
+            color: var(--secondary-color);
+        }
+        
+        .event-btn {
+            display: inline-block;
+            padding: 8px 20px;
+            background-color: var(--secondary-color);
+            color: white;
+            border-radius: 50px;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+        
+        .event-btn:hover {
+            background-color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        
+        .modal-content {
+            background-color: var(--card-bg);
+            margin: 50px auto;
+            max-width: 800px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: modalFadeIn 0.3s ease;
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .modal-header {
+            padding: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-title {
+            margin: 0;
+            color: white;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .modal-close:hover {
+            color: var(--accent-color);
+        }
+        
+        .modal-body {
+            padding: 30px;
+        }
+        
+        .search-box {
+            position: relative;
+            max-width: 400px;
+            margin: 0 auto 40px;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 50px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            padding-left: 50px;
+            outline: none;
+            transition: var(--transition);
+        }
+        
+        .search-input:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(41, 137, 216, 0.2);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+        
+        .loader {
+            display: none;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--secondary-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 50px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-city logo-icon floating"></i>
+                <div>
+                    <div>Город</div>
+                    <span>Слуцк</span>
+                </div>
+            </div>
+            <div class="slogan">Где история встречается с современностью</div>
+        </div>
+    </header>
+    
+
+    <nav>
+        <div class="container nav-container">
+            <ul class="nav-tabs">
+                <li class="active"><a href="#about" data-tab="about"><i class="fas fa-home"></i> О городе</a></li>
+                <li><a href="#history" data-tab="history"><i class="fas fa-landmark"></i> История</a></li>
+                <li><a href="#attractions" data-tab="attractions"><i class="fas fa-umbrella-beach"></i> Достопримечательности</a></li>
+                <li><a href="#gallery" data-tab="gallery"><i class="fas fa-images"></i> Галерея</a></li>
+                <li><a href="#map-tab" data-tab="map-tab"><i class="fas fa-map-marked-alt"></i> Карта</a></li>
+                <li><a href="#contacts" data-tab="contacts"><i class="fas fa-address-book"></i> Контакты</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+
+    <main>
+        <div class="container">
+            <div class="breadcrumbs">
+                <a href="#about">Главная</a>
+                <span>/</span>
+                <span id="current-page">О городе</span>
+            </div>
+
+            <div id="about" class="tab-content active">
+                <div class="hero">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Slucak05715.JPG/1200px-Slucak05715.JPG" alt="Панорама Слуцка" class="hero-image">
+                    <div class="hero-content">
+                        <h1 class="hero-title">Добро пожаловать в Слуцк</h1>
+                        <p class="hero-subtitle">Откройте для себя богатую историю, культуру и красоту одного из древнейших городов Беларуси</p>
+                        <button class="hero-btn" id="watch-video-btn">Смотреть видео</button>
+                    </div>
+                </div>
+                
+                <div class="coat-of-arms">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Coat_of_Arms_of_Slutsk%2C_Belarus.svg/800px-Coat_of_Arms_of_Slutsk%2C_Belarus.svg.png" alt="Герб Слуцка">
+                    <p>Герб города Слуцка: "В голубом поле изображение золотого солнца с человеческим лицом, окруженного серебряными облаками"</p>
+                </div>
+                
+                <p>Слуцк — один из древнейших городов Беларуси, расположенный в Минской области на реке Случь. Это город с богатой историей, уникальными культурными традициями и живописной природой. Слуцк известен своим историческим наследием, включая знаменитые Слуцкие пояса, которые являются символом белорусского культурного наследия.</p>
+                
+                <div class="facts">
+                    <div class="fact-card">
+                        <div class="fact-icon"><i class="fas fa-calendar-alt"></i></div>
+                        <div class="fact-number">1116</div>
+                        <div class="fact-title">Год первого упоминания</div>
+                    </div>
+                    <div class="fact-card">
+                        <div class="fact-icon"><i class="fas fa-users"></i></div>
+                        <div class="fact-number">61,000</div>
+                        <div class="fact-title">Жителей в городе</div>
+                    </div>
+                    <div class="fact-card">
+                        <div class="fact-icon"><i class="fas fa-map-marked-alt"></i></div>
+                        <div class="fact-number">24.6</div>
+                        <div class="fact-title">Км² площадь города</div>
+                    </div>
+                    <div class="fact-card">
+                        <div class="fact-icon"><i class="fas fa-landmark"></i></div>
+                        <div class="fact-number">1441</div>
+                        <div class="fact-title">Год получения Магдебургского права</div>
+                    </div>
+                </div>
+                
+                <h2>Общая информация</h2>
+                <p>Слуцк является административным центром Слуцкого района. Город занимает площадь около 24,6 км² и находится на высоте 215 метров над уровнем моря. По данным на 2023 год, население Слуцка составляет около 61 тысячи человек.</p>
+                
+                <div class="weather-widget">
+                    <div class="weather-header">
+                        <div class="weather-city">Слуцк</div>
+                        <div class="weather-date" id="current-date"></div>
+                    </div>
+                    <div class="weather-main">
+                        <div class="weather-temp">+18°C</div>
+                        <div class="weather-icon"><i class="fas fa-sun"></i></div>
+                    </div>
+                    <div class="weather-details">
+                        <div class="weather-detail"><i class="fas fa-wind"></i> Ветер: 3 м/с, С-З</div>
+                        <div class="weather-detail"><i class="fas fa-tint"></i> Влажность: 65%</div>
+                        <div class="weather-detail"><i class="fas fa-cloud-rain"></i> Осадки: 0%</div>
+                        <div class="weather-detail"><i class="fas fa-eye"></i> Видимость: 10 км</div>
+                    </div>
+                </div>
+                
+                <h3>Географическое положение</h3>
+                <p>Слуцк расположен в центральной части Беларуси, в 105 км к югу от Минска. Город стоит на реке Случь (приток Припяти), что исторически способствовало его развитию как торгового центра. Благодаря удачному расположению на пересечении торговых путей, Слуцк долгое время был важным экономическим и культурным центром региона.</p>
+                
+                <h3>Климат</h3>
+                <p>Климат в Слуцке умеренно-континентальный, с мягкой зимой и теплым летом. Средняя температура января составляет -5°C, июля +18°C. Годовое количество осадков — около 600 мм. Наиболее благоприятное время для посещения города — с мая по сентябрь, когда стоит теплая погода и проводится большинство культурных мероприятий.</p>
+                
+                <h3>Экономика</h3>
+                <p>Современный Слуцк — важный промышленный центр. Здесь развиты пищевая промышленность (знаменитый Слуцкий сыродельный комбинат), машиностроение, производство строительных материалов и легкая промышленность. Особое место занимает возрожденное производство Слуцких поясов, которые являются визитной карточкой города и всего региона.</p>
+                
+                <h3>Транспорт</h3>
+                <p>Через Слуцк проходят важные автомобильные дороги: Р23 (Минск—Микашевичи), Р91 (Слуцк—Старые Дороги—Любань—Уречье). Город связан регулярным автобусным сообщением с Минском и другими городами Беларуси. Ближайшая железнодорожная станция находится в 18 км от города — Слуцк (на линии Барановичи—Осиповичи). Внутригородской транспорт представлен автобусами и маршрутными такси.</p>
+                
+                <div class="stats">
+                    <div class="container stats-container">
+                        <div class="stat-item">
+                            <div class="stat-number">15+</div>
+                            <div class="stat-label">Промышленных предприятий</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">30+</div>
+                            <div class="stat-label">Образовательных учреждений</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">10+</div>
+                            <div class="stat-label">Культурных учреждений</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">5+</div>
+                            <div class="stat-label">Спортивных комплексов</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="video-container" id="about-video" style="display: none;">
+                    <iframe width="560" height="315" src="https://youtu.be/RnN7DQ6oLFY?si=1ZR7IMLJKYAOX5lb" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                
+                <div class="testimonials">
+                    <h2>Отзывы посетителей</h2>
+                    <div class="testimonial-slider">
+                        <div class="testimonial">
+                            <div class="testimonial-content">
+                                Посетил Слуцк в рамках тура по Беларуси. Очень впечатлила богатая история города, особенно музей Слуцких поясов. Обязательно вернусь сюда снова, чтобы более подробно изучить все достопримечательности.
+                            </div>
+                            <div class="testimonial-author">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Андрей К." class="testimonial-avatar">
+                                <div class="author-info">
+                                    <h4>Андрей К.</h4>
+                                    <p>Турист из Москвы</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="testimonial">
+                            <div class="testimonial-content">
+                                Как коренная случчанка могу сказать, что наш город становится краше с каждым годом. Особенно радует восстановление исторического центра и развитие туристической инфраструктуры. Приглашаю всех посетить наш уютный город!
+                            </div>
+                            <div class="testimonial-author">
+                                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Ольга П." class="testimonial-avatar">
+                                <div class="author-info">
+                                    <h4>Ольга П.</h4>
+                                    <p>Жительница Слуцка</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="newsletter">
+                    <h2>Подпишитесь на наши новости</h2>
+                    <p>Будьте в курсе всех событий и новостей города Слуцка. Узнавайте первыми о культурных мероприятиях, выставках и фестивалях.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Ваш email" class="newsletter-input" required>
+                        <button type="submit" class="newsletter-btn">Подписаться</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div id="history" class="tab-content">
+                <h1>История Слуцка</h1>
+                <p>Слуцк — город с многовековой историей, первые упоминания о котором относятся к XII веку. За свою историю город пережил периоды расцвета и упадка, был центром княжества, входил в состав различных государственных образований. Сегодня Слуцк бережно хранит свое наследие и продолжает писать новые страницы своей истории.</p>
+                
+                <div class="timeline">
+                    <div class="timeline-item left">
+                        <div class="timeline-content">
+                            <div class="timeline-year">1116</div>
+                            <p>Первое упоминание о Слуцке в "Повести временных лет" как о городе Туровского княжества под названием "Случеск". В это время город уже был важным торговым и оборонительным пунктом на южных рубежах Полоцкой земли.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item right">
+                        <div class="timeline-content">
+                            <div class="timeline-year">1160</div>
+                            <p>Слуцк становится центром удельного княжества в составе Туровской земли. Начинается строительство деревянного замка, который на несколько столетий станет резиденцией местных князей и важным оборонительным сооружением.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item left">
+                        <div class="timeline-content">
+                            <div class="timeline-year">1395</div>
+                            <p>После смерти князя Владимира Ольгердовича Слуцкое княжество переходит к его дочери Александре, которая выходит замуж за князя Михаила Гольшанского. Начинается эпоха правления Олельковичей — период расцвета Слуцкого княжества.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item right">
+                        <div class="timeline-content">
+                            <div class="timeline-year">1441</div>
+                            <p>Князь Александр (Олелько) Владимирович получает от великого князя Казимира подтверждение прав на Слуцкое княжество. Начинается "золотой век" Слуцка — развиваются ремесла, торговля, строительство, культура.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item left">
+                        <div class="timeline-content">
+                            <div class="timeline-year">1502</div>
+                            <p>Начало строительства каменного Слуцкого замка по приказу князя Семёна Олельковича. Замок становится одной из сильнейших крепостей Великого княжества Литовского, выдерживающей многочисленные осады.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item right">
+                        <div class="timeline-content">
+                            <div class="timeline-year">1582</div>
+                            <p>После смерти последнего князя Юрия Олельковича Слуцкое княжество переходит к Радзивиллам по наследству. Начинается период экономического и культурного расцвета под их властью.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item left">
+                        <div class="timeline-content">
+                            <div class="timeline-year">XVII век</div>
+                            <p>Слуцк становится известен производством знаменитых Слуцких поясов — шелковых поясов с золотыми и серебряными нитями, которые были символом статуса шляхтичей. Производство организовано по принципу мануфактуры.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item right">
+                        <div class="timeline-content">
+                            <div class="timeline-year">1793</div>
+                            <p>В результате второго раздела Речи Посполитой Слуцк входит в состав Российской империи и становится уездным городом Минской губернии. Начинается новый этап в истории города.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item left">
+                        <div class="timeline-content">
+                            <div class="timeline-year">1918-1920</div>
+                            <p>Слуцк становится ареной боевых действий во время Гражданской войны. В 1918 году провозглашается Слуцкая республика, а в 1920 году происходит Слуцкое восстание против советской власти — важное событие в истории белорусского национального движения.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item right">
+                        <div class="timeline-content">
+                            <div class="timeline-year">1941-1944</div>
+                            <p>Оккупация Слуцка немецкими войсками во время Великой Отечественной войны. В городе действует сильное партизанское движение. Слуцк освобожден 30 июня 1944 года в ходе операции "Багратион".</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item left">
+                        <div class="timeline-content">
+                            <div class="timeline-year">1960-1980</div>
+                            <p>Активное промышленное развитие Слуцка: построены сыродельный комбинат, сахарный завод, завод "Слуцксельмаш" и другие предприятия. Город становится важным промышленным центром Белорусской ССР.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item right">
+                        <div class="timeline-content">
+                            <div class="timeline-year">2006</div>
+                            <p>Слуцк отмечает 890-летие со дня первого упоминания. Восстановлены многие исторические здания, открыт новый краеведческий музей. Начинается новый этап возрождения исторического наследия города.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <h2>Слуцкое княжество</h2>
+                <p>Слуцкое княжество — одно из самых известных удельных княжеств Великого княжества Литовского, существовавшее с XII по XVI век. Столицей княжества был Слуцк, который в тот период назывался Случеск.</p>
+                
+                <p>Расцвет княжества пришелся на период правления Олельковичей (XV век), когда Слуцк стал важным политическим и культурным центром. Князья Олельковичи вели активное строительство, развивали торговлю и ремесла. При них город получил Магдебургское право (1441 год), что способствовало его экономическому развитию.</p>
+                
+                <div class="gallery">
+                    <div class="gallery-item">
+                        <a href="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Slucak_1611.jpg/800px-Slucak_1611.jpg" data-lightbox="history" data-title="Слуцк на гравюре 1611 года">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Slucak_1611.jpg/800px-Slucak_1611.jpg" alt="Слуцк на гравюре 1611 года">
+                        </a>
+                        <div class="gallery-caption">Слуцк на гравюре 1611 года</div>
+                    </div>
+                    <div class="gallery-item">
+                        <a href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/%D0%9A%D0%BD%D1%8F%D0%B7%D1%8C_%D0%AE%D1%80%D1%8B%D0%B9_%D0%90%D0%BB%D1%8C%D0%B1%D1%80%D1%8D%D1%85%D1%82_%28%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%29_%D0%90%D0%BB%D1%8C%D0%B1%D1%80%D1%8D%D1%85%D1%82%D0%B0%D0%B2%D1%96%D1%87_%D0%90%D0%BB%D1%8C%D0%B1%D1%80%D1%8D%D1%85%D1%82_%D0%A1%D0%BB%D1%83%D1%86%D0%BA%D1%96_%28%D0%BC%D0%B0%D0%BB%D1%8E%D0%BD%D0%B0%D0%BA%29.jpg/800px-thumbnail.jpg" data-lightbox="history" data-title="Князь Юрий Олелькович">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/%D0%9A%D0%BD%D1%8F%D0%B7%D1%8C_%D0%AE%D1%80%D1%8B%D0%B9_%D0%90%D0%BB%D1%8C%D0%B1%D1%80%D1%8D%D1%85%D1%82_%28%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%29_%D0%90%D0%BB%D1%8C%D0%B1%D1%80%D1%8D%D1%85%D1%82%D0%B0%D0%B2%D1%96%D1%87_%D0%90%D0%BB%D1%8C%D0%B1%D1%80%D1%8D%D1%85%D1%82_%D0%A1%D0%BB%D1%83%D1%86%D0%BA%D1%96_%28%D0%BC%D0%B0%D0%BB%D1%8E%D0%BD%D0%B0%D0%BA%29.jpg/800px-thumbnail.jpg" alt="Князь Юрий Олелькович">
+                        </a>
+                        <div class="gallery-caption">Князь Юрий Олелькович</div>
+                    </div>
+                </div>
+                
+                <h2>Слуцкие пояса</h2>
+                <p>Слуцкие пояса — уникальное явление в истории декоративно-прикладного искусства Речи Посполитой. Эти шелковые пояса с золотыми и серебряными нитями производились в Слуцке с XVII по XIX век и были обязательным атрибутом шляхетского костюма.</p>
+                
+                <p>Каждый пояс был двусторонним — с разными узорами на каждой стороне, что позволяло носить его к разным случаям. Производство поясов было организовано по принципу мануфактуры с разделением труда. Сегодня слуцкие пояса являются ценными музейными экспонатами и символом белорусского культурного наследия. В 2012 году технология изготовления слуцких поясов была включена в список нематериального культурного наследия ЮНЕСКО.</p>
+                
+                <div class="gallery">
+                    <div class="gallery-item">
+                        <a href="https://histmuseum.by/wp-content/uploads/2024/06/2b9_59f1ec1e-200x300.jpg" data-lightbox="belts" data-title="Слуцкий пояс XVIII века">
+                            <img src="https://histmuseum.by/wp-content/uploads/2024/06/2b9_59f1ec1e-200x300.jpg" alt="Слуцкий пояс XVIII века">
+                        </a>
+                        <div class="gallery-caption">Слуцкий пояс XVIII века</div>
+                    </div>
+                    <div class="gallery-item">
+                        <a href="https://niasvizh.by/upload/medialibrary/bd1/8lj9ewko579lcf881ktij4effxoqt2qw/DSC_5068.jpg" data-lightbox="belts" data-title="Фрагмент слуцкого пояса">
+                            <img src="https://niasvizh.by/upload/medialibrary/bd1/8lj9ewko579lcf881ktij4effxoqt2qw/DSC_5068.jpg" alt="Фрагмент слуцкого пояса">
+                        </a>
+                        <div class="gallery-caption">Фрагмент слуцкого пояса</div>
+                    </div>
+                    <div class="gallery-item">
+                        <a href="https://slutskiepoyasa.by/wp-content/uploads/2019/05/1plasti-istorii.jpg" data-lightbox="belts" data-title="Слуцкие пояса в музее">
+                            <img src="https://slutskiepoyasa.by/wp-content/uploads/2019/05/1plasti-istorii.jpg" alt="Слуцкие пояса в музее">
+                        </a>
+                        <div class="gallery-caption">Слуцкие пояса в музее</div>
+                    </div>
+                </div>
+                
+                <div class="events">
+                    <h2>Исторические события и фестивали</h2>
+                    
+                    <div class="event-card">
+                        <div class="event-date">
+                            <div class="event-day">15</div>
+                            <div class="event-month">Июня</div>
+                        </div>
+                        <div class="event-content">
+                            <h3 class="event-title">Фестиваль "Слуцкие пояса"</h3>
+                            <div class="event-meta">
+                                <span><i class="fas fa-map-marker-alt"></i> Центральная площадь</span>
+                                <span><i class="fas fa-clock"></i> 10:00 - 22:00</span>
+                            </div>
+                            <p>Ежегодный фестиваль, посвященный историческому наследию Слуцка. В программе: реконструкции, ярмарки ремесел, концерты и выставки.</p>
+                            <a href="#" class="event-btn">Подробнее</a>
+                        </div>
+                    </div>
+                    
+                    <div class="event-card">
+                        <div class="event-date">
+                            <div class="event-day">25</div>
+                            <div class="event-month">Августа</div>
+                        </div>
+                        <div class="event-content">
+                            <h3 class="event-title">День города Слуцка</h3>
+                            <div class="event-meta">
+                                <span><i class="fas fa-map-marker-alt"></i> Городской парк</span>
+                                <span><i class="fas fa-clock"></i> 12:00 - 23:00</span>
+                            </div>
+                            <p>Торжественные мероприятия, концерты, ярмарки и фейерверк в честь дня основания города.</p>
+                            <a href="#" class="event-btn">Подробнее</a>
+                        </div>
+                    </div>
+                    
+                    <div class="event-card">
+                        <div class="event-date">
+                            <div class="event-day">10</div>
+                            <div class="event-month">Сентября</div>
+                        </div>
+                        <div class="event-content">
+                            <h3 class="event-title">Научная конференция "Слуцкое княжество"</h3>
+                            <div class="event-meta">
+                                <span><i class="fas fa-map-marker-alt"></i> Краеведческий музей</span>
+                                <span><i class="fas fa-clock"></i> 09:00 - 17:00</span>
+                            </div>
+                            <p>Международная научная конференция, посвященная истории Слуцкого княжества и его роли в истории Беларуси.</p>
+                            <a href="#" class="event-btn">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+   
+            <div id="attractions" class="tab-content">
+                <h1>Достопримечательности Слуцка</h1>
+                <p>Слуцк богат историческими и культурными памятниками, многие из которых связаны с его славным прошлым как центра Слуцкого княжества. Хотя многие древние постройки не сохранились, в городе есть что посмотреть ценителям истории и архитектуры. Предлагаем вашему вниманию главные достопримечательности города.</p>
+                
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Поиск достопримечательностей...">
+                </div>
+                
+                <div class="attractions">
+                    <div class="attraction-card">
+                        <div class="attraction-image">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/f/fd/Słuckaja_ratuša._Слуцкая_ратуша_%28J._Radzivił%2C_1640-45%29.jpg" alt="Слуцкая ратуша">
+                        </div>
+                        <div class="attraction-info">
+                            <h3>Слуцкая ратуша</h3>
+                            <p>Восстановленное здание городской ратуши, символа магдебургского права, которое Слуцк получил в 1441 году. Современное здание построено в 2010-х годах на историческом месте по старинным чертежам и гравюрам. В ратуше размещается музей и административные помещения.</p>
+                            <div class="attraction-meta">
+                                <span><i class="fas fa-map-marker-alt"></i> Центральная площадь</span>
+                                <span><i class="far fa-clock"></i> Круглосуточно</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="attraction-card">
+                        <div class="attraction-image">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/8/8a/Slucak05715.JPG" alt="Михайловская церковь">
+                        </div>
+                        <div class="attraction-info">
+                            <h3>Михайловская церковь</h3>
+                            <p>Православный храм XVIII века, построенный в стиле барокко на месте древней церкви XII века. Единственный сохранившийся храм из десяти, существовавших в Слуцке до революции. В интерьере сохранились старинные фрески и иконостас. Церковь действующая, здесь регулярно проходят богослужения.</p>
+                            <div class="attraction-meta">
+                                <span><i class="fas fa-map-marker-alt"></i> ул. Ленина, 121</span>
+                                <span><i class="far fa-clock"></i> 8:00-19:00</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="attraction-card">
+                        <div class="attraction-image">
+                            <img src="https://minsktourist.by/upload/resize_cache/iblock/832/848_502_2/83251bde3989ccc0df2d3ce910dc1b9e.jpg" alt="Музей Слуцких поясов">
+                        </div>
+                        <div class="attraction-info">
+                            <h3>Музей Слуцких поясов</h3>
+                            <p>Уникальный музей, посвященный истории производства знаменитых слуцких поясов. В экспозиции представлены оригинальные пояса XVIII-XIX веков и современные реплики. Здесь можно узнать о технологии изготовления поясов и их значении в культуре шляхты. Проводятся мастер-классы по ткачеству.</p>
+                            <div class="attraction-meta">
+                                <span><i class="fas fa-map-marker-alt"></i> ул. Ленина, 131</span>
+                                <span><i class="far fa-clock"></i> 10:00-18:00 (вых. Пн)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="attraction-card">
+                        <div class="attraction-image">
+                            <img src="https://tur-ray.ru/wp-content/uploads/2022/12/kraevedcheskiy-muzey-1.jpg" alt="Слуцкий краеведческий музей">
+                        </div>
+                        <div class="attraction-info">
+                            <h3>Слуцкий краеведческий музей</h3>
+                            <p>Один из старейших музеев Беларуси, основанный в 1920 году. В экспозиции представлены археологические находки, документы, предметы быта, рассказывающие об истории Слуцка и региона. Особый интерес представляет коллекция, посвященная Слуцкому восстанию 1920 года. В музее регулярно проводятся тематические выставки.</p>
+                            <div class="attraction-meta">
+                                <span><i class="fas fa-map-marker-alt"></i> ул. Ленина, 171</span>
+                                <span><i class="far fa-clock"></i> 9:00-18:00 (вых. Пн)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="attraction-card">
+                        <div class="attraction-image">
+                            <img src="https://i.pinimg.com/originals/de/3b/5f/de3b5fb7b97f649d2def23e7609cda40.png" alt="Место Слуцкого замка">
+                        </div>
+                        <div class="attraction-info">
+                            <h3>Место Слуцкого замка</h3>
+                            <p>На этом месте с XII по XVIII век стоял мощный Слуцкий замок — резиденция слуцких князей. Замок неоднократно разрушался и восстанавливался, пока окончательно не был разобран в XIX веке. Сегодня здесь установлен памятный знак и ведутся археологические исследования. Планируется восстановление части замковых сооружений.</p>
+                            <div class="attraction-meta">
+                                <span><i class="fas fa-map-marker-alt"></i> ул. Замковая</span>
+                                <span><i class="far fa-clock"></i> Круглосуточно</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="attraction-card">
+                        <div class="attraction-image">
+                            <img src="https://tur-ray.ru/wp-content/uploads/2022/12/park-kultury-i-otdyha.jpg" alt="Городской парк культуры и отдыха">
+                        </div>
+                        <div class="attraction-info">
+                            <h3>Городской парк культуры и отдыха</h3>
+                            <p>Живописный парк на берегу реки Случь, основанный в XIX веке. Здесь сохранились старые деревья, есть аттракционы, летняя эстрада и памятники. В парке установлен памятник Евфросинии Полоцкой, которая, по преданию, посещала Слуцк. Любимое место отдыха горожан и гостей города.</p>
+                            <div class="attraction-meta">
+                                <span><i class="fas fa-map-marker-alt"></i> ул. Социалистическая</span>
+                                <span><i class="far fa-clock"></i> 8:00-22:00</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="attraction-card">
+                        <div class="attraction-image">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Catholic_Church_Of_St._Anthony_in_Słucak.jpg" alt="Костёл Святого Антония">
+                        </div>
+                        <div class="attraction-info">
+                            <h3>Костёл Святого Антония</h3>
+                            <p>Католический храм, построенный в 1930-х годах на месте более древнего костёла. Яркий пример архитектуры межвоенного периода с элементами неоготики. В советское время здание использовалось не по назначению, но в 1990-х было возвращено верующим и отреставрировано.</p>
+                            <div class="attraction-meta">
+                                <span><i class="fas fa-map-marker-alt"></i> ул. Виленская, 1</span>
+                                <span><i class="far fa-clock"></i> 8:00-20:00</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="attraction-card">
+                        <div class="attraction-image">
+                            <img src="https://i.pinimg.com/originals/68/f8/99/68f899597af75c3bb2ad25f78f20d12a.jpg" alt="Памятник Слуцким поясам">
+                        </div>
+                        <div class="attraction-info">
+                            <h3>Памятник Слуцким поясам</h3>
+                            <p>Современный памятник, установленный в 2014 году в честь знаменитых слуцких поясов. Представляет собой стилизованное изображение пояса с характерным орнаментом. Популярное место для фотографий и символ возрождения традиций города.</p>
+                            <div class="attraction-meta">
+                                <span><i class="fas fa-map-marker-alt"></i> ул. Ленина</span>
+                                <span><i class="far fa-clock"></i> Круглосуточно</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h2>Окрестности Слуцка</h2>
+                <p>В окрестностях Слуцка также есть много интересных мест, связанных с историей региона:</p>
+                
+                <h3>Деревня Весея</h3>
+                <p>В 15 км от Слуцка находится деревня Весея, где сохранился усадебный комплекс XIX века с парком и системой прудов. Здесь бывали многие известные деятели белорусской культуры. Сохранился усадебный дом в стиле классицизма и часть парка с редкими видами деревьев.</p>
+                
+                <h3>Агрогородок Козловичи</h3>
+                <p>В Козловичах находится уникальный памятник архитектуры — деревянная Свято-Покровская церковь XVIII века с богатым иконостасом. Церковь является образцом традиционного деревянного зодчества Беларуси. В деревне также сохранилась старинная застройка.</p>
+                
+                <h3>Слуцкое водохранилище</h3>
+                <p>Искусственный водоем на реке Случь, популярное место отдыха среди жителей города и туристов. Здесь есть пляжи, базы отдыха и хорошие условия для рыбалки. В летний период на водохранилище проводятся соревнования по водным видам спорта.</p>
+                
+                <div class="gallery">
+                    </div>
+                    <div class="gallery-item">
+                        <a href="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Козловичи%2C_Belarus_-_panoramio.jpg/640px-Козловичи%2C_Belarus_-_panoramio.jpg" data-lightbox="surroundings" data-title="Церковь в Козловичах">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Козловичи%2C_Belarus_-_panoramio.jpg/640px-Козловичи%2C_Belarus_-_panoramio.jpg" alt="Церковь в Козловичах">
+                        </a>
+                        <div class="gallery-caption">Церковь в Козловичах</div>
+                    </div>
+                    <div class="gallery-item">
+                        <a href="https://avatars.mds.yandex.net/i?id=0674cc8e24cc60e4a275d313e916dfe2_l-5239483-images-thumbs&n=13" data-lightbox="surroundings" data-title="Слуцкое водохранилище">
+                            <img src="https://avatars.mds.yandex.net/i?id=0674cc8e24cc60e4a275d313e916dfe2_l-5239483-images-thumbs&n=13" alt="Слуцкое водохранилище">
+                        </a>
+                        <div class="gallery-caption">Слуцкое водохранилище</div>
+                    </div>
+                </div>
+                
+                <div class="newsletter">
+                    <h2>Хотите экскурсию по Слуцку?</h2>
+                    <p>Закажите индивидуальную или групповую экскурсию с профессиональным гидом и откройте для себя все тайны древнего города.</p>
+                    <button class="hero-btn" id="order-excursion-btn">Заказать экскурсию</button>
+                </div>
+            </div>
+
+            <div id="gallery" class="tab-content">
+                <h1>Фотогалерея Слуцка</h1>
+                <p>Предлагаем вашему вниманию подборку фотографий, которые показывают красоту и уникальность Слуцка в разные времена года и с разных ракурсов. Нажмите на фотографию для увеличения.</p>
+                
+                <div class="gallery">
+                    <div class="gallery-item">
+                        <a href="https://belarus-travel.by/wp-content/uploads/2014/01/slutsk-ispolkom-8.jpg" data-lightbox="city" data-title="Центральная площадь Слуцка">
+                            <img src="https://belarus-travel.by/wp-content/uploads/2014/01/slutsk-ispolkom-8.jpg" alt="Центральная площадь Слуцка">
+                        </a>
+                        <div class="gallery-caption">Центральная площадь Слуцка</div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <a href="https://avatars.dzeninfra.ru/get-zen_doc/235144/pub_5e1c11f511691d00ae9723c1_5e1c16b1e6cb9b00ad1e776c/scale_1200" data-lightbox="city" data-title="Реконструкция Слуцкого замка">
+                            <img src="https://avatars.dzeninfra.ru/get-zen_doc/235144/pub_5e1c11f511691d00ae9723c1_5e1c16b1e6cb9b00ad1e776c/scale_1200" alt="Реконструкция Слуцкого замка">
+                        </a>
+                        <div class="gallery-caption">Реконструкция Слуцкого замка</div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <a href="https://sobory.ru/pic/29300/29327_20140308_195021.jpg" data-lightbox="city" data-title="Михайловская церковь">
+                            <img src="https://sobory.ru/pic/29300/29327_20140308_195021.jpg" alt="Михайловская церковь">
+                        </a>
+                        <div class="gallery-caption">Михайловская церковь</div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <a href="https://minsktourist.by/upload/resize_cache/iblock/832/848_502_2/83251bde3989ccc0df2d3ce910dc1b9e.jpg" data-lightbox="city" data-title="Музей Слуцких поясов">
+                            <img src="https://minsktourist.by/upload/resize_cache/iblock/832/848_502_2/83251bde3989ccc0df2d3ce910dc1b9e.jpg" alt="Музей Слуцких поясов">
+                        </a>
+                        <div class="gallery-caption">Музей Слуцких поясов</div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <a href="https://tur-ray.ru/wp-content/uploads/2022/12/park-kultury-i-otdyha.jpg" data-lightbox="city" data-title="Городской парк">
+                            <img src="https://tur-ray.ru/wp-content/uploads/2022/12/park-kultury-i-otdyha.jpg" alt="Городской парк">
+                        </a>
+                        <div class="gallery-caption">Городской парк</div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <a href="https://tur-ray.ru/wp-content/uploads/2022/12/kraevedcheskiy-muzey-1.jpg" data-lightbox="city" data-title="Краеведческий музей">
+                            <img src="https://tur-ray.ru/wp-content/uploads/2022/12/kraevedcheskiy-muzey-1.jpg" alt="Краеведческий музей">
+                        </a>
+                        <div class="gallery-caption">Краеведческий музей</div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <a href="https://creditportal.by/images/info/foto/taksi-v-slutske_1920.jpg" data-lightbox="city" data-title="Панорама Слуцка">
+                            <img src="https://creditportal.by/images/info/foto/taksi-v-slutske_1920.jpg" alt="Панорама Слуцка">
+                        </a>
+                        <div class="gallery-caption">Панорама Слуцка</div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <a href="https://avatars.dzeninfra.ru/get-zen_doc/271828/pub_681ef63b76b9fd549b07aa11_681f02c22651887977e07e8d/scale_1200" data-lightbox="city" data-title="Слуцкие пояса">
+                            <img src="https://avatars.dzeninfra.ru/get-zen_doc/271828/pub_681ef63b76b9fd549b07aa11_681f02c22651887977e07e8d/scale_1200" alt="Слуцкие пояса">
+                        </a>
+                        <div class="gallery-caption">Слуцкие пояса</div>
+                    </div>
+                </div>
+                
+                <h2>Слуцк в разные времена года</h2>
+                <p>Слуцк прекрасен в любое время года. Весной город утопает в зелени и цветах, летом привлекает своими парками и набережной, осенью радует золотыми красками, а зимой превращается в настоящую сказку с белоснежными улицами и праздничной иллюминацией.</p>
+                
+                <div class="gallery">
+                    <div class="gallery-item">
+                        <a href="https://i.ytimg.com/vi/-B6Ve6dzf6A/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AG2CIAC0AWKAgwIABABGCMgWChyMA8=&rs=AOn4CLBiswT78cgSUmk2lmH5qaB7vZ0ZrQ" data-lightbox="seasons" data-title="Слуцк весной">
+                            <img src="https://i.ytimg.com/vi/-B6Ve6dzf6A/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AG2CIAC0AWKAgwIABABGCMgWChyMA8=&rs=AOn4CLBiswT78cgSUmk2lmH5qaB7vZ0ZrQ" alt="Слуцк весной">
+                        </a>
+                        <div class="gallery-caption">Слуцк весной</div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <a href="https://avatars.mds.yandex.net/i?id=c3bb0024a874ad2451d6e694456d85a6_l-5219934-images-thumbs&n=13" data-lightbox="seasons" data-title="Слуцк летом">
+                            <img src="https://avatars.mds.yandex.net/i?id=c3bb0024a874ad2451d6e694456d85a6_l-5219934-images-thumbs&n=13" alt="Слуцк летом">
+                        </a>
+                        <div class="gallery-caption">Слуцк летом</div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <a href="https://slutsk24.by/wp-content/uploads/2020/04/191004_people.jpg" data-lightbox="seasons" data-title="Слуцк осенью">
+                            <img src="https://slutsk24.by/wp-content/uploads/2020/04/191004_people.jpg" alt="Слуцк осенью">
+                        </a>
+                        <div class="gallery-caption">Слуцк осенью</div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <a href="https://avatars.mds.yandex.net/i?id=79ee021e0ce8f839fe60cff391d32268_l-5161321-images-thumbs&n=13" data-lightbox="seasons" data-title="Слуцк зимой">
+                            <img src="https://avatars.mds.yandex.net/i?id=79ee021e0ce8f839fe60cff391d32268_l-5161321-images-thumbs&n=13" alt="Слуцк зимой">
+                        </a>
+                        <div class="gallery-caption">Слуцк зимой</div>
+                    </div>
+                </div>
+                
+                <h2>Видео о Слуцке</h2>
+                <p>Посмотрите эти видео, чтобы лучше познакомиться с городом, его историей и достопримечательностями.</p>
+                
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://youtu.be/pbdUa1ZScTo?si=Vu1IZKHeg7EyMdQT" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                
+                <div class="video-container" style="margin-top: 30px;">
+                    <iframe width="560" height="315" src="https://youtu.be/9-adPt_UCXk?si=C0S7mM5QOJk7ds8s" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div id="map-tab" class="tab-content">
+                <h1>Карта Слуцка</h1>
+                <p>На этой интерактивной карте вы можете увидеть расположение основных достопримечательностей Слуцка, а также проложить маршрут для своего путешествия. Кликните на маркер, чтобы узнать больше о каждом объекте.</p>
+                
+                <div id="map"></div>
+                
+                <h2>Как добраться до Слуцка</h2>
+                <p>Слуцк расположен в 105 км к югу от Минска, и добраться сюда можно несколькими способами:</p>
+                
+                <h3>На автомобиле</h3>
+                <p>Из Минска по трассе Р23 (Минск—Микашевичи). Время в пути — около 1,5 часов. Дорога хорошего качества, с заправками и кафе по пути. Из других городов Беларуси удобнее всего ехать через Минск или по трассе Р13 (Бобруйск—Слуцк—Несвиж).</p>
+                
+                <h3>На автобусе</h3>
+                <p>С Центрального автовокзала Минска регулярно ходят автобусы и маршрутные такси до Слуцка. Время в пути — около 2 часов. Расписание можно уточнить на сайте автовокзала. Также есть прямые автобусные рейсы из Бреста, Гомеля, Могилева и других городов.</p>
+                
+                <h3>На поезде</h3>
+                <p>Ближайшая железнодорожная станция — Слуцк (18 км от города) на линии Барановичи—Осиповичи. От станции до города можно добраться на автобусе или такси. Прямого железнодорожного сообщения с Минском нет.</p>
+                
+                <h2>Общественный транспорт в Слуцке</h2>
+                <p>В Слуцке развита сеть городских автобусных маршрутов, которые связывают все районы города. Также работают маршрутные такси и службы такси. Основные транспортные узлы — автовокзал и центральная площадь. Стоимость проезда в городском автобусе — около 0.7 BYN, маршрутное такси — 0.8 BYN.</p>
+                
+                <div class="contact-info">
+                    <div class="contact-card">
+                        <h3><i class="fas fa-bus"></i> Автовокзал</h3>
+                        <ul>
+                            <li><i class="fas fa-map-marker-alt"></i> ул. Виленская, 1</li>
+                            <li><i class="fas fa-phone"></i> +375 (1795) 5-11-11</li>
+                            <li><i class="fas fa-clock"></i> Работает: 5:00-23:00</li>
+                            <li><i class="fas fa-globe"></i> <a href="http://avtovokzal.by" target="_blank">avtovokzal.by</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <h3><i class="fas fa-taxi"></i> Такси</h3>
+                        <ul>
+                            <li><strong>Такси "Экспресс"</strong><br>
+                                <i class="fas fa-phone"></i> +375 (1795) 5-55-55</li>
+                            <li><strong>Такси "Слуцкое"</strong><br>
+                                <i class="fas fa-phone"></i> +375 (1795) 5-22-22</li>
+                            <li><strong>Такси "Комфорт"</strong><br>
+                                <i class="fas fa-phone"></i> +375 (1795) 5-33-33</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="weather-widget">
+                    <div class="weather-header">
+                        <div class="weather-city">Погода в Слуцке</div>
+                        <div class="weather-date" id="map-weather-date"></div>
+                    </div>
+                    <div class="weather-main">
+                        <div class="weather-temp">+18°C</div>
+                        <div class="weather-icon"><i class="fas fa-sun"></i></div>
+                    </div>
+                    <div class="weather-details">
+                        <div class="weather-detail"><i class="fas fa-wind"></i> Ветер: 3 м/с, С-З</div>
+                        <div class="weather-detail"><i class="fas fa-tint"></i> Влажность: 65%</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="contacts" class="tab-content">
+                <h1>Контакты и полезная информация</h1>
+                <p>Если вы планируете посетить Слуцк, эта информация будет вам полезна. Здесь вы найдете контакты туристических организаций, гостиниц, ресторанов и других учреждений. Для вашего удобства мы собрали все важные телефоны и адреса в одном месте.</p>
+                
+                <div class="contact-info">
+                    <div class="contact-card">
+                        <h3><i class="fas fa-info-circle"></i> Туристическая информация</h3>
+                        <ul>
+                            <li><i class="fas fa-map-marked-alt"></i> Слуцкий краеведческий музей, ул. Ленина, 171</li>
+                            <li><i class="fas fa-phone"></i> +375 (1795) 5-42-76</li>
+                            <li><i class="fas fa-envelope"></i> museum@slutsk.gov.by</li>
+                            <li><i class="fas fa-globe"></i> <a href="http://slutsk.museum.by" target="_blank">slutsk.museum.by</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <h3><i class="fas fa-hotel"></i> Гостиницы</h3>
+                        <ul>
+                            <li><strong>Гостиница "Слуцк"</strong><br>
+                                <i class="fas fa-map-marked-alt"></i> ул. Ленина, 143<br>
+                                <i class="fas fa-phone"></i> +375 (1795) 5-55-55<br>
+                                <i class="fas fa-money-bill-wave"></i> От 80 BYN/ночь</li>
+                            <li><strong>Гостиница "Юбилейная"</strong><br>
+                                <i class="fas fa-map-marked-alt"></i> ул. Социалистическая, 37<br>
+                                <i class="fas fa-phone"></i> +375 (1795) 5-12-34<br>
+                                <i class="fas fa-money-bill-wave"></i> От 70 BYN/ночь</li>
+                            <li><strong>Мини-отель "Старый город"</strong><br>
+                                <i class="fas fa-map-marked-alt"></i> ул. Замковая, 5<br>
+                                <i class="fas fa-phone"></i> +375 (1795) 5-78-90<br>
+                                <i class="fas fa-money-bill-wave"></i> От 100 BYN/ночь</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <h3><i class="fas fa-utensils"></i> Рестораны и кафе</h3>
+                        <ul>
+                            <li><strong>Ресторан "Случь"</strong><br>
+                                <i class="fas fa-map-marked-alt"></i> ул. Ленина, 145<br>
+                                <i class="fas fa-phone"></i> +375 (1795) 5-67-89<br>
+                                <i class="fas fa-clock"></i> 11:00-23:00</li>
+                            <li><strong>Кафе "Ратуша"</strong><br>
+                                <i class="fas fa-map-marked-alt"></i> Центральная площадь<br>
+                                <i class="fas fa-phone"></i> +375 (1795) 5-43-21<br>
+                                <i class="fas fa-clock"></i> 8:00-22:00</li>
+                            <li><strong>Кафе "Старый город"</strong><br>
+                                <i class="fas fa-map-marked-alt"></i> ул. Замковая, 5<br>
+                                <i class="fas fa-phone"></i> +375 (1795) 5-78-90<br>
+                                <i class="fas fa-clock"></i> 10:00-23:00</li>
+                            <li><strong>Кофейня "Белые росы"</strong><br>
+                                <i class="fas fa-map-marked-alt"></i> ул. Социалистическая, 25<br>
+                                <i class="fas fa-phone"></i> +375 (1795) 5-34-56<br>
+                                <i class="fas fa-clock"></i> 8:00-22:00</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <h3><i class="fas fa-bus"></i> Транспорт</h3>
+                        <ul>
+                            <li><strong>Автовокзал</strong><br>
+                                <i class="fas fa-map-marked-alt"></i> ул. Виленская, 1<br>
+                                <i class="fas fa-phone"></i> +375 (1795) 5-11-11<br>
+                                <i class="fas fa-clock"></i> 5:00-23:00</li>
+                            <li><strong>Такси "Экспресс"</strong><br>
+                                <i class="fas fa-phone"></i> +375 (1795) 5-55-55<br>
+                                <i class="fas fa-money-bill-wave"></i> От 5 BYN по городу</li>
+                            <li><strong>Такси "Слуцкое"</strong><br>
+                                <i class="fas fa-phone"></i> +375 (1795) 5-22-22<br>
+                                <i class="fas fa-money-bill-wave"></i> От 4 BYN по городу</li>
+                            <li><strong>Аренда авто</strong><br>
+                                <i class="fas fa-phone"></i> +375 (1795) 5-33-33<br>
+                                <i class="fas fa-money-bill-wave"></i> От 70 BYN/день</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h2>Туристические услуги</h2>
+                <p>В Слуцке можно заказать экскурсии по городу и окрестностям, включая тематические экскурсии по историческим местам, посещение музеев и производств (например, Слуцкого сыродельного комбината).</p>
+                
+                <h3>Экскурсионные бюро</h3>
+                <ul>
+                    <li><strong>"Слуцк Турист"</strong> - ул. Ленина, 120, тел. +375 (1795) 5-10-10, email: tour@slutsk.by</li>
+                    <li><strong>"Исторический Слуцк"</strong> - ул. Социалистическая, 45, тел. +375 (1795) 5-20-20, email: history@slutsk.by</li>
+                    <li><strong>"Белорусские путешествия"</strong> - ул. Виленская, 3, тел. +375 (1795) 5-30-30, email: travel@slutsk.by</li>
+                </ul>
+                
+                <h3>Сувениры</h3>
+                <p>Лучшие сувениры из Слуцка — это, конечно, реплики слуцких поясов (их можно приобрести в Музее слуцких поясов), изделия из льна, продукция местных сыроделов и кондитеров. Сувенирные магазины:</p>
+                <ul>
+                    <li><strong>"Слуцкие традиции"</strong> - ул. Ленина, 125, тел. +375 (1795) 5-44-44</li>
+                    <li><strong>"Подарки из Слуцка"</strong> - Центральная площадь, тел. +375 (1795) 5-45-45</li>
+                    <li><strong>Музейные магазины</strong> - при краеведческом музее и музее слуцких поясов</li>
+                </ul>
+                
+                <h2>Полезные телефоны</h2>
+                <ul>
+                    <li><strong>Скорая помощь</strong> - 103</li>
+                    <li><strong>Милиция</strong> - 102</li>
+                    <li><strong>Пожарная служба</strong> - 101</li>
+                    <li><strong>Слуцкая центральная больница</strong> - ул. Чайковского, 21, тел. +375 (1795) 5-33-33</li>
+                    <li><strong>Городская администрация</strong> - ул. Ленина, 155, тел. +375 (1795) 5-11-11</li>
+                    <li><strong>Почта</strong> - ул. Ленина, 100, тел. +375 (1795) 5-22-22</li>
+                    <li><strong>Банк</strong> - ул. Социалистическая, 10, тел. +375 (1795) 5-66-66</li>
+                </ul>
+                
+                <div class="contact-card" style="margin-top: 40px;">
+                    <h3><i class="fas fa-question-circle"></i> Остались вопросы?</h3>
+                    <p>Заполните форму ниже, и наши специалисты свяжутся с вами в ближайшее время.</p>
+                    <form id="contact-form" style="margin-top: 20px;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                            <input type="text" placeholder="Ваше имя" required style="padding: 12px; border: 1px solid #ddd; border-radius: 5px;">
+                            <input type="email" placeholder="Ваш email" required style="padding: 12px; border: 1px solid #ddd; border-radius: 5px;">
+                        </div>
+                        <textarea placeholder="Ваш вопрос" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; min-height: 100px; margin-bottom: 20px;"></textarea>
+                        <button type="submit" style="padding: 12px 30px; background-color: var(--secondary-color); color: white; border: none; border-radius: 5px; cursor: pointer; transition: var(--transition);">Отправить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>О городе</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> История</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> География</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Климат</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Экономика</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Транспорт</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Достопримечательности</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Музеи</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Храмы</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Парки</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Исторические места</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Окрестности</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Туристам</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Гостиницы</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Рестораны</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Экскурсии</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> События</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Советы</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Контакты</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> г. Слуцк, ул. Ленина, 155</li>
+                        <li><i class="fas fa-phone"></i> +375 (1795) 5-11-11</li>
+                        <li><i class="fas fa-envelope"></i> info@slutsk.gov.by</li>
+                    </ul>
+                    
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-vk"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 Неофициальный сайт города Слуцка. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="scroll-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+    
+    <div id="video-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Видео о Слуцке</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://youtu.be/9yJcUxrXfco?si=lc6aCOdN4pE-913I" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="excursion-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Заказ экскурсии</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="excursion-form">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                        <input type="text" placeholder="Ваше имя" required style="padding: 12px; border: 1px solid #ddd; border-radius: 5px;">
+                        <input type="email" placeholder="Ваш email" required style="padding: 12px; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                        <input type="tel" placeholder="Ваш телефон" required style="padding: 12px; border: 1px solid #ddd; border-radius: 5px;">
+                        <input type="date" placeholder="Дата экскурсии" required style="padding: 12px; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                    <select required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 20px;">
+                        <option value="">Выберите тип экскурсии</option>
+                        <option value="individual">Индивидуальная</option>
+                        <option value="group">Групповая</option>
+                        <option value="thematic">Тематическая</option>
+                    </select>
+                    <textarea placeholder="Дополнительные пожелания" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; min-height: 100px; margin-bottom: 20px;"></textarea>
+                    <button type="submit" style="padding: 12px 30px; background-color: var(--secondary-color); color: white; border: none; border-radius: 5px; cursor: pointer; transition: var(--transition);">Отправить заявку</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const today = new Date();
+            document.getElementById('current-date').textContent = today.toLocaleDateString('ru-RU', options);
+            document.getElementById('map-weather-date').textContent = today.toLocaleDateString('ru-RU', options);
+            
+   
+            const tabs = document.querySelectorAll('.nav-tabs li a');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const currentPage = document.getElementById('current-page');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    tabs.forEach(t => t.parentElement.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+
+                    this.parentElement.classList.add('active');
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                    
+
+                    const tabName = this.textContent.trim();
+                    currentPage.textContent = tabName;
+                    
+
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+
+                    if (tabId === 'map-tab') {
+                        initMap();
+                    }
+                });
+            });
+            
+
+            if (document.querySelector('.tab-content.active').id === 'map-tab') {
+                initMap();
+            }
+            
+
+            const scrollTopBtn = document.querySelector('.scroll-top');
+            
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    scrollTopBtn.classList.add('active');
+                } else {
+                    scrollTopBtn.classList.remove('active');
+                }
+            });
+            
+            scrollTopBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+
+            const videoModal = document.getElementById('video-modal');
+            const watchVideoBtn = document.getElementById('watch-video-btn');
+            const modalClose = document.querySelectorAll('.modal-close');
+            
+            watchVideoBtn.addEventListener('click', function() {
+                videoModal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            });
+            
+
+            const excursionModal = document.getElementById('excursion-modal');
+            const orderExcursionBtn = document.getElementById('order-excursion-btn');
+            
+            orderExcursionBtn.addEventListener('click', function() {
+                excursionModal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            });
+
+            modalClose.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.closest('.modal').style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                });
+            });
+            
+
+            window.addEventListener('click', function(e) {
+                if (e.target.classList.contains('modal')) {
+                    e.target.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
+            
+
+            function initMap() {
+                if (document.getElementById('map')._leaflet_id) return; 
+                
+                const map = L.map('map').setView([53.0279, 27.5596], 13);
+                
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+
+                const attractionIcon = L.icon({
+                    iconUrl: 'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-512.png',
+                    iconSize: [32, 32],
+                    iconAnchor: [16, 32],
+                    popupAnchor: [0, -32]
+                });
+
+
+                const attractions = [
+                    {
+                        name: "Михайловская церковь",
+                        coords: [53.0308, 27.5783],
+                        description: "Православный храм XVIII века в стиле барокко",
+                        type: "attraction",
+                        address: "Минская область, г. Слуцк, ул. Социалистическая, 88"
+                    },
+                    {
+                        name: "Музей Слуцких поясов",
+                        coords: [53.024367, 27.555399],
+                        description: "Уникальный музей, посвященный истории производства знаменитых слуцких поясов",
+                        type: "attraction",
+                        address: "Минская область, г. Слуцк, ул. Максима Богдановича, 8"
+                    },
+                    {
+                        name: "Слуцкий краеведческий музей",
+                        coords: [53.02372, 27.54687],
+                        description: "Один из старейших музеев Беларуси, основанный в 1920 году",
+                        type: "attraction",
+                        address: "Минская область, г. Слуцк, ул. Ленина, 171"
+                    },
+                    {
+                        name: "Место Слуцкого замка",
+                        coords: [53.0275, 27.5553],
+                        description: "На этом месте с XII по XVIII век стоял мощный Слуцкий замок",
+                        type: "attraction",
+                        address: "-"
+                    },
+                    {
+                        name: "Городской парк культуры и отдыха",
+                        coords: [53.021952, 27.548141],
+                        description: "Живописный парк на берегу реки Случь, основанный в XIX веке",
+                        type: "attraction",
+                        address: "Минская область, г. Слуцк,  ул. Виленская, 10"
+                    },
+                    {
+                        name: "Гостиница 'Слуцк'",
+                        coords: [53.030533, 27.556633],
+                        description: "Главная гостиница города",
+                        type: "attraction",
+                        address: "Минская область, г. Слуцк, ул. Ленина, 199"
+                    },
+                    {
+                        name: "Автовокзал",
+                        coords: [53.0146, 27.5239],
+                        description: "Основной транспортный узел города",
+                        type: "attraction",
+                        address: "Минская область, г. Слуцк, ул. Ленина, 90"
+                    }
+                ];
+                
+                attractions.forEach(attr => {
+                    let icon;
+                    switch(attr.type) {
+                        case "hotel":
+                            icon = hotelIcon;
+                            break;
+                        case "food":
+                            icon = foodIcon;
+                            break;
+                        case "museum":
+                            icon = museumIcon;
+                            break;
+                        default:
+                            icon = attractionIcon;
+                    }
+                    
+                    const marker = L.marker(attr.coords, {icon: icon}).addTo(map)
+                        .bindPopup(`<b>${attr.name}</b><br>${attr.description}<br><small>Адрес: ${attr.address}</small>`);
+                });
+
+
+                
+                const route = L.polyline(routeCoordinates, {
+                    color: '#2989d8',
+                    weight: 5,
+                    opacity: 0.7,
+                    dashArray: '10, 10'
+                }).addTo(map);
+                
+
+                L.circle([53.0279, 27.5596], {
+                    color: '#ffcc00',
+                    fillColor: '#ffcc00',
+                    fillOpacity: 0.1,
+                    radius: 1000
+                }).addTo(map).bindPopup("Центр города. Радиус 1 км.");
+            }
+
+            const contactForm = document.getElementById('contact-form');
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Ваш вопрос отправлен. Мы свяжемся с вами в ближайшее время.');
+                this.reset();
+            });
+
+            const excursionForm = document.getElementById('excursion-form');
+            excursionForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Ваша заявка на экскурсию принята. Наш менеджер свяжется с вами для уточнения деталей.');
+                this.reset();
+                document.getElementById('excursion-modal').style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+
+            const searchInput = document.querySelector('.search-input');
+            const attractionCards = document.querySelectorAll('.attraction-card');
+            
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                
+                attractionCards.forEach(card => {
+                    const title = card.querySelector('h3').textContent.toLowerCase();
+                    const description = card.querySelector('p').textContent.toLowerCase();
+                    
+                    if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
