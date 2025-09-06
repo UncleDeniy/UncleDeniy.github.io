@@ -10,7 +10,7 @@
 
 **Мощные инструменты для разработчиков на Arch Linux**
 
-[🚀 Посмотреть сайт](https://uncledeniy.github.io/arch-linux-dev-tools.github.io/)
+[🚀 Посмотреть сайт](UncleDeniy.github.io)
 
 </div>
 
@@ -119,6 +119,7 @@ sudo pacman -S code nodejs python docker git
 
 
 ---
+
 
 
 
