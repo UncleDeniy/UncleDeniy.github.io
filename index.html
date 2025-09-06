@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arch Linux Dev Tools</title>
+    <style>
+        :root {
+            --primary: #2e3440;
+            --secondary: #4c566a;
+            --accent: #88c0d0;
+            --accent-dark: #5e81ac;
+            --text: #eceff4;
+            --text-secondary: #d8dee9;
+            --background: #3b4252;
+            --card-bg: #434c5e;
+            --success: #a3be8c;
+            --warning: #ebcb8b;
+            --error: #bf616a;
+            --code-bg: #2e3440;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Fira Code', 'JetBrains Mono', 'Cascadia Code', monospace;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--primary), var(--background));
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        header {
+            background: rgba(46, 52, 64, 0.95);
+            color: var(--text);
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--accent);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, var(--accent), var(--accent-dark));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 700;
+        }
+        
+        nav {
+            background: rgba(59, 66, 82, 0.95);
+            padding: 0.8rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--secondary);
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        nav ul li a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            transition: all 0.3s;
+            font-weight: 500;
+            border: 1px solid transparent;
+        }
+        
+        nav ul li a:hover {
+            background: rgba(76, 86, 106, 0.5);
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, rgba(59, 66, 82, 0.8), rgba(76, 86, 106, 0.8)), 
+                        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23434c5e" opacity="0.3"/><path d="M0 0L100 100" stroke="%23434c5e" stroke-width="2" opacity="0.2"/><path d="M100 0L0 100" stroke="%23434c5e" stroke-width="2" opacity="0.2"/></svg>');
+            padding: 50px 30px;
+            text-align: center;
+            margin-bottom: 40px;
+            border-radius: 12px;
+            color: var(--text);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--secondary);
+        }
+        
+        .hero h2 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            color: var(--text);
+            font-weight: 700;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            color: var(--text-secondary);
+        }
+        
+        .software-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .software-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--secondary);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .software-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-dark));
+        }
+        
+        .software-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+            border-color: var(--accent);
+        }
+        
+        .software-card h3 {
+            color: var(--accent);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .software-card p {
+            margin-bottom: 20px;
+            flex-grow: 1;
+            color: var(--text-secondary);
+        }
+        
+        .command-box {
+            background-color: var(--code-bg);
+            color: var(--text);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Fira Code', monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            border: 1px solid var(--secondary);
+            position: relative;
+        }
+        
+        .command-box::before {
+            content: '$';
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent);
+            font-weight: bold;
+        }
+        
+        .command-box code {
+            margin-left: 15px;
+            display: block;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--accent), var(--accent-dark));
+            color: var(--primary);
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-weight: 600;
+            text-align: center;
+            margin-top: 10px;
+            box-shadow: 0 4px 12px rgba(136, 192, 208, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(136, 192, 208, 0.4);
+        }
+        
+        .btn-copy {
+            background: var(--secondary);
+            color: var(--text);
+            padding: 8px 15px;
+            font-size: 0.9rem;
+        }
+        
+        .btn-copy:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+        
+        .category {
+            margin-bottom: 50px;
+        }
+        
+        .category h2 {
+            font-size: 2.2rem;
+            color: var(--accent);
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent);
+            font-weight: 700;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .badge-official {
+            background-color: var(--success);
+            color: var(--primary);
+        }
+        
+        .badge-aur {
+            background-color: var(--warning);
+            color: var(--primary);
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 8px;
+            color: var(--primary);
+            background: linear-gradient(90deg, var(--success), #8fbcbb);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transform: translateX(150%);
+            transition: transform 0.3s;
+            z-index: 1000;
+            font-weight: 600;
+            border: 1px solid rgba(163, 190, 140, 0.5);
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+        
+        .resource-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--secondary);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .resource-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-dark), #81a1c1);
+        }
+        
+        .resource-card h3 {
+            color: var(--accent);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .resource-card ul {
+            list-style-type: none;
+        }
+        
+        .resource-card li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+            color: var(--text-secondary);
+        }
+        
+        .resource-card li:before {
+            content: "⟩";
+            color: var(--accent);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        
+        .resource-card a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-bottom: 1px dotted transparent;
+        }
+        
+        .resource-card a:hover {
+            color: var(--accent-dark);
+            border-bottom: 1px dotted var(--accent);
+        }
+        
+        footer {
+            background: var(--primary);
+            color: var(--text-secondary);
+            text-align: center;
+            padding: 30px;
+            margin-top: 60px;
+            border-top: 1px solid var(--secondary);
+        }
+        
+        @media (max-width: 768px) {
+            .software-grid, .resources-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .hero h2 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .command-box::before {
+                position: relative;
+                margin-right: 5px;
+                transform: none;
+                top: 0;
+            }
+            
+            .command-box code {
+                margin-left: 0;
+            }
+        }
+        
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .software-card, .resource-card {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        /* Специальные стили для программистов */
+        .key-combo {
+            display: inline-block;
+            background: var(--code-bg);
+            color: var(--accent);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Fira Code', monospace;
+            border: 1px solid var(--secondary);
+        }
+        
+        .tip {
+            background: rgba(136, 192, 208, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        .tip-title {
+            color: var(--accent);
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        /* Стили для горячих клавиш */
+        .shortcut-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .shortcut-table th, .shortcut-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--secondary);
+        }
+        
+        .shortcut-table th {
+            background-color: var(--accent-dark);
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        .shortcut-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .shortcut-table tr:hover {
+            background-color: rgba(76, 86, 106, 0.3);
+        }
+        
+        .shortcut-category {
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent);
+            color: var(--accent);
+            font-size: 1.5rem;
+        }
+        
+        .shortcut-combo {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+        
+        .key {
+            background: var(--code-bg);
+            color: var(--accent);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: 'Fira Code', monospace;
+            border: 1px solid var(--secondary);
+            font-size: 0.9rem;
+        }
+        
+        .plus {
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>Arch Linux Dev Tools</h1>
+        </div>
+        <p>Мощные инструменты для разработчиков на Arch Linux</p>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#web-dev">Веб-разработка</a></li>
+            <li><a href="#programming">Языки программирования</a></li>
+            <li><a href="#tools">Инструменты</a></li>
+            <li><a href="#database">Базы данных</a></li>
+            <li><a href="#containers">Контейнеры</a></li>
+            <li><a href="#shortcuts">Горячие клавиши</a></li>
+            <li><a href="#resources">Ресурсы</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <div class="hero">
+            <h2>Арсенал разработчика на Arch Linux</h2>
+            <p>Установите всё необходимое для комфортной разработки в несколько команд. Эффективные инструменты для профессионалов.</p>
+            <a href="#software-list" class="btn">Начать установку</a>
+        </div>
+        
+        <div id="software-list">
+            <!-- КАТЕГОРИЯ: ВЕБ-СЕРВЕРЫ -->
+            <div class="category" id="web-servers">
+                <h2>Веб-серверы</h2>
+                <div class="software-grid">
+                    <div class="software-card">
+                        <h3>Apache HTTP Server <span class="badge badge-official">Official</span></h3>
+                        <p>Мощный и гибкий веб-сервер с широкой поддержкой модулей.</p>
+                        <div class="command-box">sudo pacman -S apache</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('sudo pacman -S apache')">Скопировать команду</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- КАТЕГОРИЯ: ОФИС -->
+            <div class="category" id="office">
+                <h2>Офисные приложения</h2>
+                <div class="software-grid">
+                    <div class="software-card">
+                        <h3>OnlyOffice <span class="badge badge-aur">AUR</span></h3>
+                        <p>Мощный офисный пакет с поддержкой форматов Microsoft Office.</p>
+                        <div class="command-box">yay -S onlyoffice-desktopeditors</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('yay -S onlyoffice-desktopeditors')">Скопировать команду</button>
+                    </div>
+                    <div class="software-card">
+                        <h3>LibreOffice <span class="badge badge-official">Official</span></h3>
+                        <p>Мощный офисный пакет с открытым исходным кодом.</p>
+                        <div class="command-box">sudo pacman -S libreoffice-fresh</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('sudo pacman -S libreoffice-fresh')">Скопировать команду</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- КАТЕГОРИЯ: МУЛЬТИМЕДИА -->
+            <div class="category" id="multimedia">
+                <h2>Мультимедиа</h2>
+                <div class="software-grid">
+                    <div class="software-card">
+                        <h3>VLC Media Player <span class="badge badge-official">Official</span></h3>
+                        <p>Универсальный медиаплеер, который воспроизводит практически все форматы.</p>
+                        <div class="command-box">sudo pacman -S vlc</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('sudo pacman -S vlc')">Скопировать команду</button>
+                    </div>
+                    
+                    <div class="software-card">
+                        <h3>sxiv <span class="badge badge-official">Official</span></h3>
+                        <p>Простой и быстрый просмотрщик изображений для X.</p>
+                        <div class="command-box">sudo pacman -S sxiv</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('sudo pacman -S sxiv')">Скопировать команду</button>
+                    </div>
+                    
+                    <div class="software-card">
+                        <h3>GIMP <span class="badge badge-official">Official</span></h3>
+                        <p>Мощный редактор изображений с открытым исходным кодом.</p>
+                        <div class="command-box">sudo pacman -S gimp</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('sudo pacman -S gimp')">Скопировать команду</button>
+                    </div>
+                    
+                    <div class="software-card">
+                        <h3>Krita <span class="badge badge-official">Official</span></h3>
+                        <p>Профессиональное бесплатное приложение для рисования.</p>
+                        <div class="command-box">sudo pacman -S krita</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('sudo pacman -S krita')">Скопировать команду</button>
+                    </div>
+                    
+                    <div class="software-card">
+                        <h3>Flameshot <span class="badge badge-official">Official</span></h3>
+                        <p>Мощный инструмент для создания скриншотов.</p>
+                        <div class="command-box">sudo pacman -S flameshot</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('sudo pacman -S flameshot')">Скопировать команду</button>
+                    </div>
+                    
+                    <div class="software-card">
+                        <h3>Audacity <span class="badge badge-official">Official</span></h3>
+                        <p>Редактор аудио с открытым исходным кодом.</p>
+                        <div class="command-box">sudo pacman -S audacity</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('sudo pacman -S audacity')">Скопировать команду</button>
+                    </div>
+                    
+                    <div class="software-card">
+                        <h3>Shotcut <span class="badge badge-official">Official</span></h3>
+                        <p>Мощный видеоредактор с открытым исходным кодом.</p>
+                        <div class="command-box">sudo pacman -S shotcut</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('sudo pacman -S shotcut')">Скопировать команду</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- КАТЕГОРИЯ: НАУКА -->
+            <div class="category" id="science">
+                <h2>Научное ПО</h2>
+                <div class="software-grid">
+                    <div class="software-card">
+                        <h3>Scilab <span class="badge badge-official">Official</span></h3>
+                        <p>Пакет для численных вычислений с открытым исходным кодом.</p>
+                        <div class="command-box">sudo pacman -S scilab</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('sudo pacman -S scilab')">Скопировать команду</button>
+                    </div>
+                    
+                    <div class="software-card">
+                        <h3>LLM Studio <span class="badge badge-aur">AUR</span></h3>
+                        <p>Платформа для работы с большими языковыми моделями.</p>
+                        <div class="command-box">yay -S llm-studio</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('yay -S llm-studio')">Скопировать команду</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- КАТЕГОРИЯ: ИГРЫ -->
+            <div class="category" id="gaming">
+                <h2>Игры</h2>
+                <div class="software-grid">
+                    <div class="software-card">
+                        <h3>Steam <span class="badge badge-official">Official</span></h3>
+                        <p>Крупнейшая платформа для распространения компьютерных игр.</p>
+                        <div class="command-box">sudo pacman -S steam</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('sudo pacman -S steam')">Скопировать команду</button>
+                    </div>
+                    
+                    <div class="software-card">
+                        <h3>Proton <span class="badge badge-official">Official</span></h3>
+                        <p>Инструмент от Valve для запуска Windows-игр на Linux.</p>
+                        <div class="command-box">sudo pacman -S proton</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('sudo pacman -S proton')">Скопировать команду</button>
+                    </div>
+                    
+                    <div class="software-card">
+                        <h3>Lutris <span class="badge badge-official">Official</span></h3>
+                        <p>Открытая игровая платформа для Linux с поддержкой множества источников игр.</p>
+                        <div class="command-box">sudo pacman -S lutris</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('sudo pacman -S lutris')">Скопировать команду</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- КАТЕГОРИЯ: ОБЩЕНИЕ -->
+            <div class="category" id="communication">
+                <h2>Общение</h2>
+                <div class="software-grid">
+                    <div class="software-card">
+                        <h3>Discord <span class="badge badge-official">Official</span></h3>
+                        <p>Популярное приложение для голосовой, видео- и текстовой связи.</p>
+                        <div class="command-box">sudo pacman -S discord</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('sudo pacman -S discord')">Скопировать команду</button>
+                    </div>
+                    
+                    <div class="software-card">
+                        <h3>Telegram <span class="badge badge-official">Official</span></h3>
+                        <p>Быстрый и безопасный мессенджер с focus на скорость.</p>
+                        <div class="command-box">sudo pacman -S telegram-desktop</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('sudo pacman -S telegram-desktop')">Скопировать команду</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- КАТЕГОРИЯ: СИСТЕМА -->
+            <div class="category" id="system">
+                <h2>Системные утилиты</h2>
+                <div class="software-grid">
+                    <div class="software-card">
+                        <h3>VirtualBox <span class="badge badge-official">Official</span></h3>
+                        <p>Мощная система виртуализации для корпоративного и домашнего использования.</p>
+                        <div class="command-box">sudo pacman -S virtualbox virtualbox-host-modules-arch</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('sudo pacman -S virtualbox virtualbox-host-modules-arch')">Скопировать команду</button>
+                        <p class="note">После установки выполните: <code>sudo modprobe vboxdrv</code></p>
+                    </div>
+                    
+                    <div class="software-card">
+                        <h3>Hyprland <span class="badge badge-official">Official</span></h3>
+                        <p>Динамический тайловый оконный менеджер на основе wlroots.</p>
+                        <div class="command-box">sudo pacman -S hyprland</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('sudo pacman -S hyprland')">Скопировать команду</button>
+                    </div>
+                    
+                    <div class="software-card">
+                        <h3>Paru <span class="badge badge-official">Official</span></h3>
+                        <p>Популярный AUR helper, форк yay с дополнительными функциями.</p>
+                        <div class="command-box">sudo pacman -S paru</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('sudo pacman -S paru')">Скопировать команду</button>
+                    </div>
+                    
+                    <div class="software-card">
+                        <h3>Reflector <span class="badge badge-official">Official</span></h3>
+                        <p>Утилита для автоматического обновления списка зеркал Arch Linux.</p>
+                        <div class="command-box">sudo pacman -S reflector</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('sudo pacman -S reflector')">Скопировать команду</button>
+                    </div>
+                    
+                    <div class="software-card">
+                        <h3>Virt Manager <span class="badge badge-official">Official</span></h3>
+                        <p>Графический инструмент для управления виртуальными машинами через libvirt.</p>
+                        <div class="command-box">sudo pacman -S virt-manager qemu vde2 ebtables dnsmasq bridge-utils openbsd-netcat</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('sudo pacman -S virt-manager qemu vde2 ebtables dnsmasq bridge-utils openbsd-netcat')">Скопировать команду</button>
+                    </div>
+                    
+                    <div class="software-card">
+                        <h3>Neofetch <span class="badge badge-official">Official</span></h3>
+                        <p>Информация о системе с выводом логотипа дистрибутива.</p>
+                        <div class="command-box">sudo pacman -S neofetch</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('sudo pacman -S neofetch')">Скопировать команду</button>
+                    </div>
+                    
+                    <div class="software-card">
+                        <h3>Fastfetch <span class="badge badge-official">Official</span></h3>
+                        <p>Быстрая альтернатива Neofetch с низким потреблением ресурсов.</p>
+                        <div class="command-box">sudo pacman -S fastfetch</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('sudo pacman -S fastfetch')">Скопировать команду</button>
+                    </div>
+                    
+                    <div class="software-card">
+                        <h3>Gufw <span class="badge badge-official">Official</span></h3>
+                        <p>Графический интерфейс для управления брандмауэром UFW.</p>
+                        <div class="command-box">sudo pacman -S gufw</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('sudo pacman -S gufw')">Скопировать команду</button>
+                    </div>
+                    
+                    <div class="software-card">
+                        <h3>Timeshift <span class="badge badge-aur">AUR</span></h3>
+                        <p>Инструмент для создания резервных копий системы и восстановления.</p>
+                        <div class="command-box">yay -S timeshift</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('yay -S timeshift')">Скопировать команду</button>
+                    </div>
+                    
+                    <div class="software-card">
+                        <h3>Dolphin <span class="badge badge-official">Official</span></h3>
+                        <p>Файловый менеджер из состава KDE Plasma.</p>
+                        <div class="command-box">sudo pacman -S dolphin</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('sudo pacman -S dolphin')">Скопировать команду</button>
+                    </div>
+                    
+                    <div class="software-card">
+                        <h3>Kate <span class="badge badge-official">Official</span></h3>
+                        <p>Мощный текстовый редактор из состава KDE.</p>
+                        <div class="command-box">sudo pacman -S kate</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('sudo pacman -S kate')">Скопировать команду</button>
+                    </div>
+                    
+                    <div class="software-card">
+                        <h3>Visual Studio Code <span class="badge badge-official">Official</span></h3>
+                        <p>Популярный редактор кода от Microsoft.</p>
+                        <div class="command-box">sudo pacman -S code</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('sudo pacman -S code')">Скопировать команду</button>
+                    </div>
+                    
+                    <div class="software-card">
+                        <h3>Transmission <span class="badge badge-official">Official</span></h3>
+                        <p>Простой и легкий torrent-клиент.</p>
+                        <div class="command-box">sudo pacman -S transmission-gtk</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('sudo pacman -S transmission-gtk')">Скопировать команду</button>
+                    </div>
+                    
+                    <div class="software-card">
+                        <h3>qBittorrent <span class="badge badge-official">Official</span></h3>
+                        <p>Мощный torrent-клиент с открытым исходным кодом.</p>
+                        <div class="command-box">sudo pacman -S qbittorrent</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('sudo pacman -S qbittorrent')">Скопировать команду</button>
+                    </div>
+                    
+                    <div class="software-card">
+                        <h3>Firefox <span class="badge badge-official">Official</span></h3>
+                        <p>Популярный браузер с открытым исходным кодом.</p>
+                        <div class="command-box">sudo pacman -S firefox</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('sudo pacman -S firefox')">Скопировать команду</button>
+                    </div>
+                    
+                    <div class="software-card">
+                        <h3>Chromium <span class="badge badge-official">Official</span></h3>
+                        <p>Браузер с открытым исходным кодом, основа проекта Chrome.</p>
+                        <div class="command-box">sudo pacman -S chromium</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('sudo pacman -S chromium')">Скопировать команду</button>
+                    </div>
+                    
+                    <div class="software-card">
+                        <h3>Google Chrome <span class="badge badge-aur">AUR</span></h3>
+                        <p>Популярный браузер от Google.</p>
+                        <div class="command-box">yay -S google-chrome</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('yay -S google-chrome')">Скопировать команду</button>
+                    </div>
+                    
+                    <div class="software-card">
+                        <h3>7-Zip <span class="badge badge-official">Official</span></h3>
+                        <p>Мощный архиватор с высокой степенью сжатия.</p>
+                        <div class="command-box">sudo pacman -S p7zip</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('sudo pacman -S p7zip')">Скопировать команду</button>
+                    </div>
+                    
+                    <div class="software-card">
+                        <h3>PeaZip <span class="badge badge-official">Official</span></h3>
+                        <p>Кроссплатформенный архиватор и файловый менеджер.</p>
+                        <div class="command-box">sudo pacman -S peazip</div>
+                        <button class="btn btn-copy" onclick="copyToClipboard('sudo pacman -S peazip')">Скопировать команду</button>
+                    </div>
+                </div>
+            </div>
+                        <!-- ВКЛАДКА ГОРЯЧИХ КЛАВИШ -->
+            <div class="category" id="shortcuts">
+                <h2>Горячие клавиши и команды</h2>
+                
+                <div class="shortcut-category">Терминал</div>
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th>Комбинация</th>
+                            <th>Описание</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="shortcut-combo">
+                                    <span class="key">Ctrl</span><span class="plus">+</span><span class="key">C</span>
+                                </div>
+                            </td>
+                            <td>Прервать текущую команду</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="shortcut-combo">
+                                    <span class="key">Ctrl</span><span class="plus">+</span><span class="key">D</span>
+                                </div>
+                            </td>
+                            <td>Выйти из терминала (EOF)</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="shortcut-combo">
+                                    <span class="key">Ctrl</span><span class="plus">+</span><span class="key">Z</span>
+                                </div>
+                            </td>
+                            <td>Приостановить текущий процесс</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="shortcut-combo">
+                                    <span class="key">Ctrl</span><span class="plus">+</span><span class="key">A</span>
+                                </div>
+                            </td>
+                            <td>Переместить курсор в начало строки</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="shortcut-combo">
+                                    <span class="key">Ctrl</span><span class="plus">+</span><span class="key">E</span>
+                                </div>
+                            </td>
+                            <td>Переместить курсор в конец строки</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="shortcut-combo">
+                                    <span class="key">Ctrl</span><span class="plus">+</span><span class="key">U</span>
+                                </div>
+                            </td>
+                            <td>Удалить текст от курсора до начала строки</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="shortcut-combo">
+                                    <span class="key">Ctrl</span><span class="plus">+</span><span class="key">K</span>
+                                </div>
+                            </td>
+                            <td>Удалить текст от курсора до конца строки</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="shortcut-combo">
+                                    <span class="key">Ctrl</span><span class="plus">+</span><span class="key">R</span>
+                                </div>
+                            </td>
+                            <td>Поиск по истории команд</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="shortcut-combo">
+                                    <span class="key">Tab</span>
+                                </div>
+                            </td>
+                            <td>Автодополнение команд и путей</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="shortcut-category">Pacman (менеджер пакетов)</div>
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th>Команда</th>
+                            <th>Описание</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>sudo pacman -Syu</code></td>
+                            <td>Обновить систему и все пакеты</td>
+                        </tr>
+                        <tr>
+                            <td><code>sudo pacman -S пакет</code></td>
+                            <td>Установить пакет</td>
+                        </tr>
+                        <tr>
+                            <td><code>sudo pacman -R пакет</code></td>
+                            <td>Удалить пакет</td>
+                        </tr>
+                        <tr>
+                            <td><code>sudo pacman -Rs пакет</code></td>
+                            <td>Удалить пакет с зависимостями</td>
+                        </tr>
+                        <tr>
+                            <td><code>sudo pacman -Rns пакет</code></td>
+                            <td>Удалить пакет с зависимостями и конфигами</td>
+                        </tr>
+                        <tr>
+                            <td><code>pacman -Ss запрос</code></td>
+                            <td>Поиск пакетов в репозиториях</td>
+                        </tr>
+                        <tr>
+                            <td><code>pacman -Qs запрос</code></td>
+                            <td>Поиск установленных пакетов</td>
+                        </tr>
+                        <tr>
+                            <td><code>pacman -Qi пакет</code></td>
+                            <td>Информация об установленном пакете</td>
+                        </tr>
+                        <tr>
+                            <td><code>pacman -Ql пакет</code></td>
+                            <td>Показать файлы, принадлежащие пакету</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="shortcut-category">Системные команды</div>
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th>Команда</th>
+                            <th>Описание</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>sudo systemctl start служба</code></td>
+                            <td>Запустить системную службу</td>
+                        </tr>
+                        <tr>
+                            <td><code>sudo systemctl stop служба</code></td>
+                            <td>Остановить системную службу</td>
+                        </tr>
+                        <tr>
+                            <td><code>sudo systemctl restart служба</code></td>
+                            <td>Перезапустить системную службу</td>
+                        </tr>
+                        <tr>
+                            <td><code>sudo systemctl enable служба</code></td>
+                            <td>Включить автозапуск службы</td>
+                        </tr>
+                        <tr>
+                            <td><code>sudo systemctl disable служба</code></td>
+                            <td>Отключить автозапуск службы</td>
+                        </tr>
+                        <tr>
+                            <td><code>journalctl -u служба</code></td>
+                            <td>Показать логи службы</td>
+                        </tr>
+                        <tr>
+                            <td><code>journalctl -f</code></td>
+                            <td>Следить за системными логами в реальном времени</td>
+                        </tr>
+                        <tr>
+                            <td><code>lsblk</code></td>
+                            <td>Показать информацию о блочных устройствах</td>
+                        </tr>
+                        <tr>
+                            <td><code>df -h</code></td>
+                            <td>Показать использование дискового пространства</td>
+                        </tr>
+                        <tr>
+                            <td><code>free -h</code></td>
+                            <td>Показать использование памяти</td>
+                        </tr>
+                        <tr>
+                            <td><code>top</code></td>
+                            <td>Динамический просмотр процессов</td>
+                        </tr>
+                        <tr>
+                            <td><code>htop</code></td>
+                            <td>Улучшенная версия top</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="shortcut-category">Работа с файлами</div>
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th>Команда</th>
+                            <th>Описание</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>ls -la</code></td>
+                            <td>Показать все файлы (включая скрытые) с деталями</td>
+                        </tr>
+                        <tr>
+                            <td><code>cp -r источник назначение</code></td>
+                            <td>Копировать директорию рекурсивно</td>
+                        </tr>
+                        <tr>
+                            <td><code>rm -rf директория</code></td>
+                            <td>Удалить директорию и всё её содержимое</td>
+                        </tr>
+                        <tr>
+                            <td><code>chmod +x файл</code></td>
+                            <td>Сделать файл исполняемым</td>
+                        </tr>
+                        <tr>
+                            <td><code>chown пользователь:группа файл</code></td>
+                            <td>Изменить владельца файла</td>
+                        </tr>
+                        <tr>
+                            <td><code>find /путь -name "шаблон"</code></td>
+                            <td>Найти файлы по имени</td>
+                        </tr>
+                        <tr>
+                            <td><code>grep -r "текст" /путь</code></td>
+                            <td>Рекурсивный поиск текста в файлах</td>
+                        </tr>
+                        <tr>
+                            <td><code>tar -czf архив.tar.gz директория</code></td>
+                            <td>Создать tar.gz архив</td>
+                        </tr>
+                        <tr>
+                            <td><code>tar -xzf архив.tar.gz</code></td>
+                            <td>Распаковать tar.gz архив</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="shortcut-category">Сеть</div>
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th>Команда</th>
+                            <th>Описание</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>ip addr</code></td>
+                            <td>Показать сетевые интерфейсы и IP-адреса</td>
+                        </tr>
+                        <tr>
+                            <td><code>ping хост</code></td>
+                            <td>Проверить доступность хоста</td>
+                        </tr>
+                        <tr>
+                            <td><code>curl -O URL</code></td>
+                            <td>Скачать файл по URL</td>
+                        </tr>
+                        <tr>
+                            <td><code>wget URL</code></td>
+                            <td>Скачать файл по URL (альтернатива curl)</td>
+                        </tr>
+                        <tr>
+                            <td><code>ssh пользователь@хост</code></td>
+                            <td>Подключиться к удаленному серверу по SSH</td>
+                        </tr>
+                        <tr>
+                            <td><code>scp файл пользователь@хост:путь</code></td>
+                            <td>Скопировать файл на удаленный сервер</td>
+                        </tr>
+                        <tr>
+                            <td><code>rsync -avz источник назначение</code></td>
+                            <td>Синхронизировать файлы/директории</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="tip">
+                    <div class="tip-title">Совет</div>
+                    <p>Используйте <span class="key-combo">Ctrl+Alt+T</span> для быстрого открытия терминала в большинстве окружений рабочего стола.</p>
+                </div>
+            </div>
+            <!-- КАТЕГОРИЯ: РЕСУРСЫ -->
+            <div class="category" id="resources">
+                <h2>Полезные ресурсы и ссылки</h2>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <h3>Официальные ресурсы Arch Linux</h3>
+                        <ul>
+                            <li><a href="https://archlinux.org/" target="_blank">Официальный сайт Arch Linux</a></li>
+                            <li><a href="https://wiki.archlinux.org/" target="_blank">Arch Wiki (документация)</a></li>
+                            <li><a href="https://bbs.archlinux.org/" target="_blank">Форум Arch Linux</a></li>
+                            <li><a href="https://aur.archlinux.org/" target="_blank">Arch User Repository (AUR)</a></li>
+                            <li><a href="https://archlinux.org/packages/" target="_blank">Поиск пакетов</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <h3>Сообщества и форумы</h3>
+                        <ul>
+                            <li><a href="https://www.reddit.com/r/archlinux/" target="_blank">r/archlinux на Reddit</a></li>
+                            <li><a href="https://t.me/archlinux_ru" target="_blank">Arch Linux RU Telegram</a></li>
+                            <li><a href="https://forum.archlinux.org/" target="_blank">Официальный форум (англ.)</a></li>
+                            <li><a href="https://linux.org.ru/forum/archlinux" target="_blank">Linux.org.ru форум Arch</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <h3>Обучение и руководства</h3>
+                        <ul>
+                            <li><a href="https://wiki.archlinux.org/title/Installation_guide" target="_blank">Официальное руководство по установке</a></li>
+                            <li><a href="https://www.youtube.com/c/EFLinuxReviews" target="_blank">EF Linux Guides (YouTube)</a></li>
+                            <li><a href="https://www.youtube.com/c/ChrisTitusTech" target="_blank">Chris Titus Tech (YouTube)</a></li>
+                            <li><a href="https://www.youtube.com/c/LearnLinuxTV" target="_blank">Learn Linux TV (YouTube)</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <h3>Полезные инструменты</h3>
+                        <ul>
+                            <li><a href="https://archlinux.org/mirrorlist/" target="_blank">Генератор mirrorlist</a></li>
+                            <li><a href="https://archlinux.org/packages/sort/" target="_blank">Статистика пакетов</a></li>
+                            <li><a href="https://security.archlinux.org/" target="_blank">Безопасность Arch</a></li>
+                            <li><a href="https://bugs.archlinux.org/" target="_blank">Баг-трекер</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <h3>Другие дистрибутивы Linux</h3>
+                        <ul>
+                            <li><a href="https://ubuntu.com/" target="_blank">Ubuntu</a></li>
+                            <li><a href="https://www.debian.org/" target="_blank">Debian</a></li>
+                            <li><a href="https://getfedora.org/" target="_blank">Fedora</a></li>
+                            <li><a href="https://www.opensuse.org/" target="_blank">openSUSE</a></li>
+                            <li><a href="https://linuxmint.com/" target="_blank">Linux Mint</a></li>
+                            <li><a href="https://manjaro.org/" target="_blank">Manjaro</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <h3>Дополнительные ресурсы</h3>
+                        <ul>
+                            <li><a href="https://www.kernel.org/" target="_blank">Ядро Linux</a></li>
+                            <li><a href="https://www.gnu.org/software/bash/" target="_blank">Bash shell</a></li>
+                            <li><a href="https://systemd.io/" target="_blank">Systemd</a></li>
+                            <li><a href="https://wayland.freedesktop.org/" target="_blank">Wayland</a></li>
+                            <li><a href="https://www.x.org/wiki/" target="_blank">X.Org</a></li>
+                        </ul>
+                    </div>
+                    <div class="resource-card">
+                        <h3>Внешний вид и темы</h3>
+                        <ul>
+                            <li><a href="https://www.gnome-look.org/browse/" target="_blank">Курсоры и иконки (GNOME Look)</a></li>
+                            <li><a href="https://vimcolorschemes.com/i/trending" target="_blank">Цветовые палитры для Vim</a></li>
+                            <li><a href="https://gist.github.com/lopspower/03f..." target="_blank">Параметры прозрачности</a></li>
+                            <li><a href="http://cssportal.com/css-cubic-bezier..." target="_blank">Кривая Безье (CSS генератор)</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="resource-card">
+                        <h3>Документация и руководства</h3>
+                        <ul>
+                            <li><a href="https://achno.github.io/gowall-docs/t..." target="_blank">Документация к Gowall</a></li>
+                            <li><a href="https://wiki.hypr.land/" target="_blank">Hyprland wiki</a></li>
+                            <li><a href="https://wiki.hypr.land/Hypr-Ecosystem..." target="_blank">Hyprlock wiki</a></li>
+                            <li><a href="https://archlinux.org/packages/extra/..." target="_blank">OpenCL драйвер (Arch Linux)</a></li>
+                            <li><a href="https://www.opennet.ru/docs/RUS/bash_scripting_guide/" target="_blank">Advanced Bash-Scripting Guide</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="resource-card">
+                        <h3>Полезные сервисы и инструменты</h3>
+                        <ul>
+                            <li><a href="https://distrosea.com/" target="_blank">Distrosea - тест-драйв Linux дистрибутивов</a></li>
+                            <li><a href="https://sadservers.com/" target="_blank">SadServers - практика админки Linux</a></li>
+                            <li><a href="https://sql-academy.org/ru" target="_blank">SQL Academy - обучение базам данных</a></li>
+                            <li><a href="https://getvm.io/" target="_blank">GetVM - запуск Linux в браузере</a></li>
+                            <li><a href="https://dangerzone.rocks/" target="_blank">Dangerzone - обеззараживание файлов</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="resource-card">
+                        <h3>Обучающие ресурсы</h3>
+                        <ul>
+                            <li><a href="https://losst.ru/" target="_blank">Losst - гайды по Linux</a></li>
+                            <li><a href="http://younglinux.info/" target="_blank">YoungLinux - образовательные материалы</a></li>
+                            <li><a href="https://youtu.be/AIht4qAgL6o?si=zqIHWT-p1IRilQzf" target="_blank">Топовые Linux инструменты (видео)</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="category">
+            <h2>Установка AUR helpers</h2>
+            <div class="software-grid">
+                <div class="software-card">
+                    <h3>Yay <span class="badge badge-official">Official</span></h3>
+                    <p>Популярный помощник для установки пакетов из AUR.</p>
+                    <div class="command-box">
+                        # Установка зависимостей<br>
+                        sudo pacman -S --needed git base-devel<br><br>
+                        
+                        # Клонирование репозитория yay<br>
+                        git clone https://aur.archlinux.org/yay.git<br><br>
+                        
+                        # Переход в директорию с yay<br>
+                        cd yay<br><br>
+                        
+                        # Сборка и установка пакета<br>
+                        makepkg -si
+                    </div>
+                    <button class="btn btn-copy" onclick="copyToClipboard('sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si')">Скопировать все команды</button>
+                </div>
+                
+                <div class="software-card">
+                    <h3>Paru <span class="badge badge-official">Official</span></h3>
+                    <p>Форк yay с дополнительными функциями и улучшениями.</p>
+                    <div class="command-box">
+                        # Установка через pacman (есть в официальных репозиториях)<br>
+                        sudo pacman -S paru
+                    </div>
+                    <button class="btn btn-copy" onclick="copyToClipboard('sudo pacman -S paru')">Скопировать команду</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+        <div class="notification" id="copy-notification">Команда скопирована в буфер обмена!</div>
+    
+    <footer>
+        <p>Arch Linux Dev Tools &copy; 2025</p>
+        <p>Создано разработчиками для разработчиков | <a href="https://github.com/UncleDeniy/arch-linux-dev-tools.github.io" style="color: var(--accent);">GitHub Repository</a></p>
+        <div class="contributors">
+            <div class="contributor">🐧 Сообщество Arch Linux</div>
+            <div class="contributor">💻 Разработчики Open Source</div>
+        </div>
+    </footer>
+
+    <script>
+function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+ 
+                const notification = document.getElementById('notification');
+                notification.classList.add('show');
+        
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }).catch(err => {
+                console.error('Ошибка при копировании текста: ', err);
+            });
+        }
+
+         document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+         const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+ 
+        document.querySelectorAll('.software-card, .resource-card').forEach(card => {
+            card.style.opacity = 0;
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
