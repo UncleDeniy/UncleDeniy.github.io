@@ -4,7 +4,6 @@
 
 🔗 **Live:** https://uncledeniy.github.io
 📍 Владивосток
-📞 +7 (914) 701-20-42
 ✉️ [denniskrutko@ya.ru](mailto:denniskrutko@ya.ru)
 💬 Telegram: [@sweetsvd](https://t.me/sweetsvd)
 
