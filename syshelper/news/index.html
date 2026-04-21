@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru" data-color-mode="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SysHelper — Новости</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/knowledge.css">
+  <script src="../articles/article-manifest.js"></script>
+  <script src="../news/news-manifest.js"></script>
+  <script defer src="../assets/knowledge.js"></script>
+</head>
+<body data-page-mode="news">
+  <header>
+    <div class="container header-container">
+      <a class="logo" href="../index.html"><span class="logo-icon"><i class="fas fa-newspaper"></i></span><span>SysHelper</span></a>
+      <nav class="nav">
+        <a href="../index.html" class="nav-link">Главная</a>
+        <a href="../index.html#about" class="nav-link">О проекте</a>
+        <a href="../articles/index.html" class="nav-link ">Статьи</a>
+        <a href="../news/index.html" class="nav-link active">Новости</a>
+        <a href="../index.html#community" class="nav-link">Сообщество</a>
+      </nav>
+      <div class="controls">
+        <label class="import-label" for="file-input"><i class="fas fa-file-import"></i> Импорт .md</label>
+        <input id="file-input" type="file" accept=".md,.markdown,text/markdown">
+        <button class="theme-toggle" id="theme-toggle"></button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-shell">
+          <div class="hero-grid">
+            <div>
+              <span class="eyebrow"><i class="fas fa-bolt"></i> Лента новостей</span>
+              <h1>Новости, релиз-ноты и сервисные заметки отдельной лентой</h1>
+              <p>Теперь новости живут отдельно от статей. Это выглядит чище, понятнее и ближе к нормальному продукту: свежие карточки, фильтры, импорт markdown и отдельные страницы для чтения.</p>
+              <div class="hero-actions">
+                <button class="primary-btn" id="open-featured"><i class="fas fa-arrow-right"></i> Открыть главное</button>
+                <a class="secondary-btn" href="../articles/index.html"><i class="fas fa-book-open"></i> Открыть статьи</a>
+              </div>
+            </div>
+            <div class="hero-side">
+              <div class="stat-card">
+                <div class="stat-label">Всего материалов</div>
+                <div class="stat-value" id="hero-count">0</div>
+                <div class="stat-note">Чистая витрина без смешивания разделов.</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">Категорий</div>
+                <div class="stat-value" id="hero-categories">0</div>
+                <div class="stat-note">Поиск, фильтры и markdown-структура.</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-note">Последнее обновление: <span id="hero-last-date">—</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+                
+        <div class="featured-strip" id="featured-strip"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">Лента новостей</h2>
+            <p class="section-description">Отдельный поток обновлений, релизов и сервисных заметок — тоже на markdown, но в своей собственной структуре.</p>
+          </div>
+          <div class="muted" id="result-count">0</div>
+        </div>
+
+        <div class="filter-bar">
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input id="search-input" type="search" placeholder="Поиск по названию, тегам и описанию">
+          </div>
+          <div class="select-box">
+            <i class="fas fa-arrow-down-wide-short"></i>
+            <select id="sort-select">
+              <option value="date-desc">Сначала новые</option>
+              <option value="date-asc">Сначала старые</option>
+              <option value="views-desc">По просмотрам ↓</option>
+              <option value="views-asc">По просмотрам ↑</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="panel" style="padding:18px 18px 20px; margin-bottom:18px;">
+          <div class="section-description" style="margin-bottom:12px;">Категории</div>
+          <div class="chip-row" id="category-chips"></div>
+          <div class="section-description" style="margin:16px 0 12px;">Теги</div>
+          <div class="chip-row" id="tag-chips"></div>
+        </div>
+
+        <div class="cards-grid" id="cards-grid"></div>
+
+        <div class="panel" style="padding:22px; margin-top:24px;">
+          <div class="import-drop" id="drop-zone">
+            <strong>Быстрый импорт markdown</strong><br>
+            Перетащи сюда свой <code>.md</code> файл — он откроется как полноценная новость страница в стиле сайта.
+          </div>
+        </div>
+                
+      </div>
+    </section>
+  </main>
+
+  <div class="modal" id="image-modal"><img src="" alt=""></div>
+</body>
+</html>

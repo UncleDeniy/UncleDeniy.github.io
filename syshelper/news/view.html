@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru" data-color-mode="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SysHelper — Новость</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/styles/github-dark.min.css">
+  <link rel="stylesheet" href="../assets/knowledge.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+  <script src="../articles/article-manifest.js"></script>
+  <script src="../news/news-manifest.js"></script>
+  <script defer src="../assets/knowledge.js"></script>
+</head>
+<body data-page-mode="news" data-page-type="reader">
+  <header>
+    <div class="container header-container">
+      <a class="logo" href="../index.html"><span class="logo-icon"><i class="fas fa-newspaper"></i></span><span>SysHelper</span></a>
+      <nav class="nav">
+        <a href="../index.html" class="nav-link">Главная</a>
+        <a href="../articles/index.html" class="nav-link ">Статьи</a>
+        <a href="../news/index.html" class="nav-link active">Новости</a>
+      </nav>
+      <div class="controls">
+        <label class="import-label" for="file-input"><i class="fas fa-file-import"></i> Импорт .md</label>
+        <input id="file-input" type="file" accept=".md,.markdown,text/markdown">
+        <button class="theme-toggle" id="theme-toggle"></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container reader-layout">
+      <section class="panel reader-panel">
+        <div class="reader-cover" id="reader-cover"></div>
+        <div class="reader-head">
+          <span class="eyebrow" id="reader-badge"></span>
+          <h1 class="reader-title" id="reader-title"></h1>
+          <p class="reader-desc" id="reader-desc"></p>
+          <div class="reader-meta">
+            <span><i class="fas fa-calendar"></i> <span id="reader-date"></span></span>
+            <span><i class="fas fa-user"></i> <span id="reader-author"></span></span><span><i class="fas fa-eye"></i> <span id="reader-views"></span></span>
+          </div>
+          <div class="card-tags" id="reader-tags" style="margin-top:14px;"></div>
+        </div>
+        <article class="reader-body" id="reader-body"></article>
+      </section>
+
+      <aside class="aside-stack">
+        <div class="panel aside-card">
+          <div class="aside-title">Навигация по странице</div>
+          <div class="toc-links" id="toc-links"></div>
+        </div>
+        <div class="panel aside-card">
+          <div class="aside-title">Связанные материалы</div>
+          <div class="related-list" id="related-list"></div>
+        </div>
+        <a class="secondary-btn" href="index.html"><i class="fas fa-arrow-left"></i> Назад к разделу</a>
+      </aside>
+    </div>
+  </main>
+
+  <div class="modal" id="image-modal"><img src="" alt=""></div>
+</body>
+</html>
