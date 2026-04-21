@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="ru" data-lang="ru">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>S.T.A.L.K.E.R. — Тайна Станции Дуга | Аудиокнига</title>
+    <meta name="description" content="Аудиокнига во вселенной S.T.A.L.K.E.R.: исчезнувшая экспедиция, станция Дуга и смертельные тайны Зоны. Слушайте отрывок, выбирайте платформу и поддержите автора." />
+
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="S.T.A.L.K.E.R. — Тайна Станции Дуга" />
+    <meta property="og:description" content="Аудиокнига: экспедиция пропала в центре Зоны. Станция Дуга. Аномалии. Предательство. Слушайте отрывок и переходите на платформы." />
+    <meta property="og:image" content="assets/images/og-cover.jpg" />
+    <meta property="og:locale" content="ru_RU" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="canonical" href="./" />
+    <link rel="manifest" href="site.webmanifest" />
+    <meta name="theme-color" content="#0b0f12" />
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&family=Ubuntu:wght@300;400;700&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="styles.css" />
+
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Audiobook",
+            "name": "Тайна Станции Дуга",
+            "alternateName": "The Secret of the Duga Station",
+            "author": {
+                "@type": "Person",
+                "name": "Артём Бушуев"
+            },
+            "inLanguage": ["ru", "en"],
+            "duration": "PT4H57M31S",
+            "genre": ["Science Fiction", "Fantasy"],
+            "description": "Экспедиция пропадает в центре Зоны. Учёный Александр Новиков отправляется к станции Дуга и сталкивается с аномалиями, мутантами и человеческой жадностью.",
+            "image": "assets/images/og-cover.jpg"
+        }
+    </script>
+</head>
+
+<body class="scanlines">
+    <a class="skip" href="#main" data-i18n="skip">Перейти к содержимому</a>
+
+    <header class="topbar" role="banner">
+        <div class="container topbar-inner">
+            <div class="brand" aria-label="S.T.A.L.K.E.R.">
+                <span class="brand-dot" aria-hidden="true"></span>
+                <span class="brand-text">S.T.A.L.K.E.R</span>
+            </div>
+
+            <nav class="nav" aria-label="Primary">
+                <a href="#about" data-i18n="nav_about">О книге</a>
+                <a href="#listen" data-i18n="nav_listen">Слушать</a>
+                <a href="#platforms" data-i18n="nav_platforms">Платформы</a>
+                <a href="#faq" data-i18n="nav_faq">FAQ</a>
+
+            </nav>
+
+            <div class="topbar-actions">
+                <button class="lang" id="langToggle" type="button" aria-label="Switch language" aria-pressed="false">
+            RU / EN
+          </button>
+            </div>
+        </div>
+    </header>
+
+    <main id="main">
+        <section class="hero" aria-labelledby="heroTitle">
+            <div class="hero-bg" aria-hidden="true"></div>
+
+            <div class="container hero-grid">
+                <div class="hero-left">
+                    <img class="stalker-logo" src="https://media.moddb.com/images/members/4/3238/3237899/profile/119.png" alt="S.T.A.L.K.E.R." loading="lazy" decoding="async">
+
+                    <h1 class="hero-title" id="heroTitle" data-i18n="hero_title">Тайна Станции Дуга</h1>
+                    <p class="hero-subtitle" data-i18n="hero_subtitle">Аудиокнига в атмосфере Зоны: тайны Дуги, аномалии и человеческая жадность.</p>
+
+                    <div class="hero-meta" role="list">
+                        <div class="meta" role="listitem">
+                            <span class="meta-k" data-i18n="meta_author">Автор</span>
+                            <span class="meta-v">Артём Бушуев</span>
+                        </div>
+                        <div class="meta" role="listitem">
+                            <span class="meta-k" data-i18n="meta_narrator">Чтец</span>
+                            <span class="meta-v">Александр Шестаков</span>
+                        </div>
+                        <div class="meta" role="listitem">
+                            <span class="meta-k" data-i18n="meta_duration">Длительность</span>
+                            <span class="meta-v">04:57:31</span>
+                        </div>
+                    </div>
+
+                    <div class="cta-row">
+                        <a class="btn btn-stalker" href="#listen" data-i18n="cta_listen">Слушать / Читать</a>
+                        <a class="btn btn-ghost" href="#platforms" data-i18n="cta_platforms">Платформы</a>
+                    </div>
+
+
+                </div>
+
+                <aside class="hero-right" aria-label="PDA panel">
+                    <div class="pda-screen">
+                        <div class="pda-header">PDA &gt; BOOK &gt; DUGA</div>
+                        <div class="pda-content">
+                            <h2 class="pda-h" data-i18n="pda_h">PDA-выжимка</h2>
+                            <p class="pda-text" data-i18n="pda_p1">Короткий бриф по книге: кому, зачем, и что почувствуете.</p>
+                            <p class="pda-text" data-i18n="pda_p2">Идеально для мобильных: крупный шрифт, понятные кнопки, быстрый доступ к платформам.</p>
+                            <ul class="pda-list" aria-label="Tags">
+                                <li data-i18n="tag_1">Зона Отчуждения</li>
+                                <li data-i18n="tag_2">Станция Дуга</li>
+                                <li data-i18n="tag_3">Сталкеры</li>
+                                <li data-i18n="tag_4">Аномалии</li>
+                            </ul>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </section>
+
+        <section class="section" id="about" aria-labelledby="aboutTitle">
+            <div class="container">
+                <div class="section-header">
+                    <h2 id="aboutTitle" data-i18n="about_title">Коротко о сюжете</h2>
+                    <div class="divider" aria-hidden="true"></div>
+                </div>
+
+                <div class="cards">
+                    <article class="card">
+                        <h3 data-i18n="about_card1_h">Что вы получите</h3>
+                        <p class="pda-text" data-i18n="about_card1_p1">Короткий, плотный сюжет — без лишней воды.</p>
+                        <p class="pda-text" data-i18n="about_card1_p2">Атмосферу Зоны: напряжение, риск, неизвестность.</p>
+                        <div class="pill-row" aria-label="Highlights">
+                            <span class="pill" data-i18n="pill_atmo">Постапокалипсис</span>
+                            <span class="pill" data-i18n="pill_action">Напряжение</span>
+                            <span class="pill" data-i18n="pill_mystery">Тайна Дуги</span>
+                        </div>
+                    </article>
+
+                    <article class="card">
+                        <h3 data-i18n="about_card2_h">Почему зайдёт фанатам S.T.A.L.K.E.R.</h3>
+                        <ul class="check">
+                            <li data-i18n="check_1">Точки интереса и «запах» Зоны: тревога, радиация, артефакты.</li>
+                            <li data-i18n="check_2">Живые персонажи: мотивации, сделки, предательство.</li>
+                            <li data-i18n="check_3">Темп: сцены напряжения чередуются с расследованием.</li>
+                        </ul>
+                    </article>
+
+                    <article class="card">
+                        <h3 data-i18n="about_card3_h">Для кого</h3>
+                        <p class="pda-text" data-i18n="about_card3_p1">Если вам нравятся истории о выживании, загадках и опасных территориях — вы по адресу.</p>
+                        <p class="pda-text" data-i18n="about_card3_p2">Подходит и тем, кто только знакомится со вселенной: всё понятно без энциклопедий.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="listen" aria-labelledby="listenTitle">
+            <div class="container">
+                <div class="section-header">
+                    <h2 id="listenTitle" data-i18n="listen_title">Отрывок и плеер</h2>
+                    <div class="divider" aria-hidden="true"></div>
+                </div>
+
+                <div class="player" aria-label="Audiobook player">
+                    <div class="player-top">
+
+                        <p class="player-sub"><span data-i18n="player_now">Сейчас:</span> <strong id="nowTitle">Отрывок / Sample</strong></p>
+                    </div>
+
+                    <audio id="book-audio" preload="metadata" src="assets/audio/sample.mp3"></audio>
+
+                    <div class="controls">
+                        <div class="cluster" aria-label="Playback">
+                            <button class="btn btn-small btn-ghost" id="prevBtn" type="button" data-i18n="player_prev">⇚</button>
+                            <button class="play" id="playBtn" type="button" aria-pressed="false" data-i18n="player_play">▶</button>
+                            <button class="btn btn-small btn-ghost" id="nextBtn" type="button" data-i18n="player_next">⇛</button>
+                        </div>
+
+                        <div class="progress">
+                            <input type="range" id="progress" min="0" max="100" value="0" step="0.1" aria-label="Seek">
+                            <div class="time">
+                                <span id="curTime">0:00</span>
+                                <span id="durTime">0:29</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="playlist" aria-label="Playlist">
+
+                        <div id="playlistWrap">
+                            <div id="playlistWrap">
+                                <ol id="trackList">
+                                    <li class="track"><button type="button" class="track-btn active" data-track="0" aria-current="true">Отрывок / Sample</button></li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="platforms" aria-labelledby="platformsTitle">
+            <div class="container">
+                <div class="section-header">
+                    <h2 id="platformsTitle" data-i18n="platforms_title">Где слушать</h2>
+                    <div class="divider" aria-hidden="true"></div>
+                </div>
+
+                <div class="platforms">
+                    <a href="https://knigavuhe.org/book/stalker-tajjna-stancii-duga/?ysclid=mecwvv61a8633285439" target="_blank" rel="noopener" class="platform" aria-label="Knigavuhe">
+                        <img src="https://static10.tgstat.ru/channels/_0/5a/5a5b8a826b0fff9ada53f2107ee553cc.jpg" alt="Knigavuhe" loading="lazy" decoding="async">
+                        <span>Knigavuhe.org</span>
+                    </a>
+                    <a href="https://www.youtube.com/watch?v=f69iKs6ibgE&amp;ysclid=mecxr3bqp6937003561" target="_blank" rel="noopener" class="platform" aria-label="YouTube">
+                        <img src="https://3ab0ed31-049c5350-6544-4365-ae7e-6e7e2957eeea.s3.timeweb.cloud/iblock/ad9/ad9d19610eb43515b08319959d86f6f1/c710e3f4fb226fa0e20d67de72a9a55f.png" alt="YouTube" loading="lazy" decoding="async">
+                        <span>YouTube</span>
+                    </a>
+
+                </div>
+
+                <div class="support">
+                    <div class="support-card">
+                        <h3 data-i18n="support_title">Книга бесплатная</h3>
+                        <p class="muted" data-i18n="support_p">Скачайте или читайте онлайн — поддержка не требуется. Поделитесь ссылкой, если хотите.</p>
+                        <div class="cta-row">
+                            <a class="btn btn-small" href="#" aria-label="Download" data-i18n="donate">Скачать книгу</a>
+                            <a class="btn btn-small btn-ghost" href="#" aria-label="Read online" data-i18n="telegram">Читать онлайн</a>
+                        </div>
+                    </div>
+
+                    <blockquote class="quote">
+                        <p data-i18n="quote_text">«Дуга не просто объект — она живая. И она смотрит на нас…»</p>
+                        <cite data-i18n="quote_cite">— из аудиокниги «Тайна Станции Дуга»</cite>
+                    </blockquote>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="faq" aria-labelledby="faqTitle">
+            <div class="container">
+                <div class="section-header">
+                    <h2 id="faqTitle" data-i18n="faq_title">FAQ по книге</h2>
+                    <div class="divider" aria-hidden="true"></div>
+                </div>
+
+                <div class="faq">
+                    <details class="faq-item">
+                        <summary data-i18n="faq_q1">Книга действительно бесплатная?</summary>
+                        <p class="muted" data-i18n="faq_a1">Да. Вы можете слушать и читать её бесплатно. Покупка и донат не требуются.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary data-i18n="faq_q2">О чём «Тайна Станции Дуга»?</summary>
+                        <p class="muted" data-i18n="faq_a2">Атмосферная история в духе S.T.A.L.K.E.R.: Зона, тайны «Дуги», сталкеры и выбор, который меняет всё.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary data-i18n="faq_q3">Это официальная книга от GSC?</summary>
+                        <p class="muted" data-i18n="faq_a3">Нет. Это фанатское произведение по мотивам вселенной S.T.A.L.K.E.R. S.T.A.L.K.E.R. — торговая марка GSC Game World.</p>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+
+    </main>
+
+    <footer class="footer" role="contentinfo">
+        <div class="container footer-content">
+            <div class="footer-left">
+                <img src="assets/images/stalker-logo-small.png" alt="S.T.A.L.K.E.R." loading="lazy" decoding="async">
+                <div>
+                    <p class="footer-title">Тайна Станции Дуга</p>
+                    <p class="muted">© <span id="year">2025</span> Артём Бушуев</p>
+                </div>
+            </div>
+            <div class="footer-right">
+                <p class="muted" data-i18n="legal_1">S.T.A.L.K.E.R. — зарегистрированная торговая марка GSC Game World.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js" defer=""></script>
+    <script>
+        if ('WebSocket' in window) {
+            (function() {
+                function refreshCSS() {
+                    var sheets = [].slice.call(document.getElementsByTagName("link"));
+                    var head = document.getElementsByTagName("head")[0];
+                    for (var i = 0; i < sheets.length; ++i) {
+                        var elem = sheets[i];
+                        var parent = elem.parentElement || head;
+                        parent.removeChild(elem);
+                        var rel = elem.rel;
+                        if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+                            var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+                            elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+                        }
+                        parent.appendChild(elem);
+                    }
+                }
+                var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+                var address = protocol + window.location.host + window.location.pathname + '/ws';
+                var socket = new WebSocket(address);
+                socket.onmessage = function(msg) {
+                    if (msg.data == 'reload') window.location.reload();
+                    else if (msg.data == 'refreshcss') refreshCSS();
+                };
+                if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+                    console.log('Live reload enabled.');
+                    sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+                }
+            })();
+        } else {
+            console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+        }
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="ru" data-color-mode="dark" data-dark-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linux Server - Помощь с серверными системами | SysHelper</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --text-primary: #f0f6fc;
+            --text-secondary: #c9d1d9;
+            --accent: #58a6ff;
+            --accent-ubuntu: #e95420;
+            --accent-debian: #d70a53;
+            --accent-centos: #932279;
+            --accent-redhat: #ee0000;
+            --accent-nginx: #009639;
+            --accent-apache: #d22128;
+            --accent-docker: #2496ed;
+            --accent-scripts: #8dc891;
+            --border: #30363d;
+            --success: #3fb950;
+            --card-bg: #161b22;
+            --header-bg: #161b22;
+        }
+
+        [data-color-mode="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f6f8fa;
+            --text-primary: #24292f;
+            --text-secondary: #57606a;
+            --accent: #0969da;
+            --accent-ubuntu: #e95420;
+            --accent-debian: #d70a53;
+            --accent-centos: #932279;
+            --accent-redhat: #ee0000;
+            --accent-nginx: #009639;
+            --accent-apache: #d22128;
+            --accent-docker: #2496ed;
+            --accent-scripts: #2c974b;
+            --border: #d0d7de;
+            --success: #1a7f37;
+            --card-bg: #f6f8fa;
+            --header-bg: #f6f8fa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.5;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        header {
+            background-color: var(--header-bg);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            color: var(--accent);
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin: 1rem 0;
+        }
+
+        .breadcrumb a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .nav {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--accent);
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            border-radius: 6px;
+            padding: 0.4rem 0.8rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.2s;
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--bg-secondary);
+        }
+
+        .hero {
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero-title {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin-bottom: 2rem;
+        }
+
+        .section {
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+            padding-left: 0.5rem;
+            border-left: 3px solid var(--accent);
+        }
+
+        .servers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .server-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.8rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .server-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .server-card[data-distro="ubuntu"]::before { background: var(--accent-ubuntu); }
+        .server-card[data-distro="debian"]::before { background: var(--accent-debian); }
+        .server-card[data-distro="centos"]::before { background: var(--accent-centos); }
+        .server-card[data-distro="redhat"]::before { background: var(--accent-redhat); }
+        .server-card[data-service="nginx"]::before { background: var(--accent-nginx); }
+        .server-card[data-service="apache"]::before { background: var(--accent-apache); }
+        .server-card[data-service="docker"]::before { background: var(--accent-docker); }
+        .server-card[data-category="scripts"]::before { background: var(--accent-scripts); }
+
+        .server-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .server-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .server-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .server-card:hover .server-icon {
+            transform: scale(1.1);
+        }
+
+        .server-card[data-distro="ubuntu"] .server-icon { color: var(--accent-ubuntu); }
+        .server-card[data-distro="debian"] .server-icon { color: var(--accent-debian); }
+        .server-card[data-distro="centos"] .server-icon { color: var(--accent-centos); }
+        .server-card[data-distro="redhat"] .server-icon { color: var(--accent-redhat); }
+        .server-card[data-service="nginx"] .server-icon { color: var(--accent-nginx); }
+        .server-card[data-service="apache"] .server-icon { color: var(--accent-apache); }
+        .server-card[data-service="docker"] .server-icon { color: var(--accent-docker); }
+        .server-card[data-category="scripts"] .server-icon { color: var(--accent-scripts); }
+
+        .server-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .server-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .server-stats {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .btn {
+            padding: 0.7rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: var(--bg-secondary);
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .article-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .article-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .article-card h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+
+        .article-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .scripts-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .script-category {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .script-category h3 {
+            color: var(--accent-scripts);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .script-item {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background-color: var(--bg-secondary);
+            border-radius: 6px;
+            border-left: 3px solid var(--accent-scripts);
+        }
+
+        .script-item h4 {
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .script-item p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .script-code {
+            background-color: var(--bg-primary);
+            padding: 0.8rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            margin-top: 0.5rem;
+        }
+
+        .copy-btn {
+            background: var(--accent-scripts);
+            color: white;
+            border: none;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            transition: opacity 0.2s;
+        }
+
+        .copy-btn:hover {
+            opacity: 0.9;
+        }
+
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .footer-link:hover {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav {
+                gap: 1rem;
+            }
+            
+            .hero-title {
+                font-size: 1.8rem;
+            }
+            
+            .servers-grid, .articles-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .server-stats {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .scripts-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="../../index.html" class="logo">
+                <i class="fas fa-terminal logo-icon"></i>
+                <span>SysHelper</span>
+            </a>
+            
+            <div class="nav">
+                <a href="../../index.html" class="nav-link">Главная</a>
+                <a href="#" class="nav-link">О проекте</a>
+                <a href="#" class="nav-link">Помощь</a>
+            </div>
+            
+            <div class="controls">
+                <button class="theme-toggle" id="theme-toggle">
+                    <i class="fas fa-moon"></i>
+                    <span>Тема</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="breadcrumb">
+            <a href="../../index.html">Главная</a>
+            <span>/</span>
+            <span>Linux Server</span>
+        </div>
+
+        <section class="hero">
+            <h1 class="hero-title animate">Linux Server - Профессиональная помощь</h1>
+            <p class="hero-description animate delay-1">
+                Выберите нужный тип сервера или дистрибутив для получения экспертной помощи по настройке, 
+                администрированию и решению проблем. Наши руководства охватывают все популярные серверные решения.
+            </p>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Дистрибутивы Linux для серверов</h2>
+            
+            <div class="servers-grid">
+                <a href="articles/ubuntu-server.html" class="server-card animate" data-distro="ubuntu">
+                    <div class="server-icon">
+                        <i class="fab fa-ubuntu"></i>
+                    </div>
+                    <h3>Ubuntu Server</h3>
+                    <p>Самый популярный дистрибутив для серверов с отличной документацией и поддержкой сообщества.</p>
+                    <div class="server-stats">
+                        <span class="stat"><i class="fas fa-star"></i> Популярность: 95%</span>
+                        <span class="stat"><i class="fas fa-shield-alt"></i> Стабильность: 90%</span>
+                    </div>
+                    <span class="btn">Получить помощь</span>
+                </a>
+                
+                <a href="articles/debian-server.html" class="server-card animate delay-1" data-distro="debian">
+                    <div class="server-icon">
+                        <i class="fab fa-debian"></i>
+                    </div>
+                    <h3>Debian Server</h3>
+                    <p>Стабильный и надежный дистрибутив, предпочитаемый для критически важных серверов.</p>
+                    <div class="server-stats">
+                        <span class="stat"><i class="fas fa-star"></i> Популярность: 85%</span>
+                        <span class="stat"><i class="fas fa-shield-alt"></i> Стабильность: 98%</span>
+                    </div>
+                    <span class="btn">Получить помощь</span>
+                </a>
+                
+                <a href="articles/centos-server.html" class="server-card animate delay-2" data-distro="centos">
+                    <div class="server-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <h3>CentOS/Rocky Linux</h3>
+                    <p>Корпоративные решения с длительной поддержкой и совместимостью с RHEL.</p>
+                    <div class="server-stats">
+                        <span class="stat"><i class="fas fa-star"></i> Популярность: 75%</span>
+                        <span class="stat"><i class="fas fa-shield-alt"></i> Стабильность: 95%</span>
+                    </div>
+                    <span class="btn">Получить помощь</span>
+                </a>
+                
+                <a href="articles/redhat-server.html" class="server-card animate delay-3" data-distro="redhat">
+                    <div class="server-icon">
+                        <i class="fab fa-redhat"></i>
+                    </div>
+                    <h3>Red Hat Enterprise Linux</h3>
+                    <p>Промышленный стандарт для корпоративных серверов с коммерческой поддержкой.</p>
+                    <div class="server-stats">
+                        <span class="stat"><i class="fas fa-star"></i> Популярность: 70%</span>
+                        <span class="stat"><i class="fas fa-shield-alt"></i> Стабильность: 99%</span>
+                    </div>
+                    <span class="btn">Получить помощь</span>
+                </a>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Веб-серверы и прокси</h2>
+            
+            <div class="servers-grid">
+                <a href="articles/nginx-guide.html" class="server-card animate" data-service="nginx">
+                    <div class="server-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>Nginx</h3>
+                    <p>Высокопроизводительный веб-сервер и обратный прокси с поддержкой балансировки нагрузки.</p>
+                    <div class="server-stats">
+                        <span class="stat"><i class="fas fa-bolt"></i> Производительность: 95%</span>
+                        <span class="stat"><i class="fas fa-cog"></i> Настройка: 85%</span>
+                    </div>
+                    <span class="btn">Получить помощь</span>
+                </a>
+                
+                <a href="articles/apache-guide.html" class="server-card animate delay-1" data-service="apache">
+                    <div class="server-icon">
+                        <i class="fab fa-apache"></i>
+                    </div>
+                    <h3>Apache HTTP Server</h3>
+                    <p>Мощный и гибкий веб-сервер с поддержкой множества модулей и .htaccess.</p>
+                    <div class="server-stats">
+                        <span class="stat"><i class="fas fa-bolt"></i> Производительность: 80%</span>
+                        <span class="stat"><i class="fas fa-cog"></i> Настройка: 90%</span>
+                    </div>
+                    <span class="btn">Получить помощь</span>
+                </a>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Контейнеризация и оркестрация</h2>
+            
+            <div class="servers-grid">
+                <a href="articles/docker-guide.html" class="server-card animate" data-service="docker">
+                    <div class="server-icon">
+                        <i class="fab fa-docker"></i>
+                    </div>
+                    <h3>Docker</h3>
+                    <p>Платформа для контейнеризации приложений с изоляцией зависимостей.</p>
+                    <div class="server-stats">
+                        <span class="stat"><i class="fas fa-box"></i> Контейнеры: 100%</span>
+                        <span class="stat"><i class="fas fa-project-diagram"></i> Оркестрация: 75%</span>
+                    </div>
+                    <span class="btn">Получить помощь</span>
+                </a>
+                
+                <a href="articles/kubernetes-guide.html" class="server-card animate delay-1" data-service="docker">
+                    <div class="server-icon">
+                        <i class="fas fa-cubes"></i>
+                    </div>
+                    <h3>Kubernetes</h3>
+                    <p>Мощная система оркестрации контейнеров для масштабируемых приложений.</p>
+                    <div class="server-stats">
+                        <span class="stat"><i class="fas fa-box"></i> Контейнеры: 100%</span>
+                        <span class="stat"><i class="fas fa-project-diagram"></i> Оркестрация: 95%</span>
+                    </div>
+                    <span class="btn">Получить помощь</span>
+                </a>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Общие скрипты</h2>
+            
+            <a href="articles/common-scripts.html" class="server-card animate" data-category="scripts">
+                <div class="server-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3>Полезные скрипты для администрирования</h3>
+                <p>Коллекция готовых скриптов для автоматизации рутинных задач серверного администрирования.</p>
+                <div class="server-stats">
+                    <span class="stat"><i class="fas fa-toolbox"></i> Утилиты: 20+</span>
+                    <span class="stat"><i class="fas fa-clock"></i> Экономия времени: 90%</span>
+                </div>
+                <span class="btn">Посмотреть скрипты</span>
+            </a>
+
+            <div class="scripts-container">
+                <div class="script-category">
+                    <h3>Скрипты для мониторинга</h3>
+                    
+                    <div class="script-item">
+                        <h4>Мониторинг использования диска</h4>
+                        <p>Отслеживает использование дискового пространства и отправляет уведомления при превышении лимита.</p>
+                        <div class="script-code">
+                            #!/bin/bash<br>
+                            THRESHOLD=90<br>
+                            USAGE=$(df / | grep / | awk '{ print $5 }' | sed 's/%//g')<br>
+                            if [ $USAGE -gt $THRESHOLD ]; then<br>
+                            &nbsp;&nbsp;echo "Диск почти заполнен: $USAGE%" | mail -s "Дисковое предупреждение" admin@example.com<br>
+                            fi
+                        </div>
+                        <button class="copy-btn" onclick="copyCode(this)">Копировать</button>
+                    </div>
+                    
+                    <div class="script-item">
+                        <h4>Мониторинг нагрузки на CPU</h4>
+                        <p>Проверяет загрузку процессора и уведомляет о высокой нагрузке.</p>
+                        <div class="script-code">
+                            #!/bin/bash<br>
+                            LOAD=$(uptime | awk -F'load average:' '{ print $2 }' | cut -d, -f1 | tr -d ' ')<br>
+                            MAX_LOAD=2.0<br>
+                            if (( $(echo "$LOAD > $MAX_LOAD" | bc -l) )); then<br>
+                            &nbsp;&nbsp;echo "Высокая нагрузка CPU: $LOAD" | mail -s "Предупреждение CPU" admin@example.com<br>
+                            fi
+                        </div>
+                        <button class="copy-btn" onclick="copyCode(this)">Копировать</button>
+                    </div>
+                </div>
+                
+                <div class="script-category">
+                    <h3>Скрипты для резервного копирования</h3>
+                    
+                    <div class="script-item">
+                        <h4>Автоматическое резервное копирование</h4>
+                        <p>Создает резервные копии указанных директорий с датой в имени файла.</p>
+                        <div class="script-code">
+                            #!/bin/bash<br>
+                            BACKUP_DIR="/backup"<br>
+                            SOURCE_DIRS=("/var/www" "/etc")<br>
+                            DATE=$(date +%Y-%m-%d)<br>
+                            tar -czf $BACKUP_DIR/backup-$DATE.tar.gz ${SOURCE_DIRS[@]} 2>/dev/null
+                        </div>
+                        <button class="copy-btn" onclick="copyCode(this)">Копировать</button>
+                    </div>
+                    
+                    <div class="script-item">
+                        <h4>Удаление старых резервных копий</h4>
+                        <p>Удаляет резервные копии старше указанного количества дней.</p>
+                        <div class="script-code">
+                            #!/bin/bash<br>
+                            BACKUP_DIR="/backup"<br>
+                            FIND_ALL_BACKUPS=$(find $BACKUP_DIR -name "*.tar.gz" -type f)<br>
+                            DAYS=30<br>
+                            find $BACKUP_DIR -name "*.tar.gz" -type f -mtime +$DAYS -delete
+                        </div>
+                        <button class="copy-btn" onclick="copyCode(this)">Копировать</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Популярные руководства</h2>
+            
+            <div class="articles-grid">
+                <div class="article-card animate">
+                    <h4>Установка и настройка Ubuntu Server 22.04</h4>
+                    <p>Полное руководство по развертыванию сервера с нуля, включая сетевую настройку и безопасность.</p>
+                </div>
+                
+                <div class="article-card animate delay-1">
+                    <h4>Настройка Nginx с SSL и HTTP/2</h4>
+                    <p>Оптимизация веб-сервера для максимальной производительности и безопасности.</p>
+                </div>
+                
+                <div class="article-card animate delay-2">
+                    <h4>Docker: с нуля до production</h4>
+                    <p>Исчерпывающее руководство по контейнеризации приложений и развертыванию в продакшене.</p>
+                </div>
+                
+                <div class="article-card animate delay-3">
+                    <h4>Мониторинг сервера с Prometheus и Grafana</h4>
+                    <p>Настройка системы мониторинга для отслеживания производительности и обнаружения проблем.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="../../index.html" class="footer-link">Главная</a>
+                <a href="#" class="footer-link">О проекте</a>
+                <a href="#" class="footer-link">Помощь</a>
+                <a href="#" class="footer-link">GitHub</a>
+                <a href="#" class="footer-link">Контакты</a>
+            </div>
+            <p>© 2025 SysHelper. Помощь с серверными системами.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIcon = themeToggle.querySelector('i');
+            const themeText = themeToggle.querySelector('span');
+            
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            if (savedTheme === 'light' || (!savedTheme && !systemPrefersDark)) {
+                document.documentElement.setAttribute('data-color-mode', 'light');
+                document.documentElement.setAttribute('data-dark-theme', 'light');
+                themeIcon.className = 'fas fa-sun';
+                themeText.textContent = 'Светлая';
+            } else {
+                themeIcon.className = 'fas fa-moon';
+                themeText.textContent = 'Тёмная';
+            }
+            
+            themeToggle.addEventListener('click', function() {
+                const currentTheme = document.documentElement.getAttribute('data-color-mode');
+                
+                if (currentTheme === 'dark') {
+                    document.documentElement.setAttribute('data-color-mode', 'light');
+                    document.documentElement.setAttribute('data-dark-theme', 'light');
+                    themeIcon.className = 'fas fa-sun';
+                    themeText.textContent = 'Светлая';
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    document.documentElement.setAttribute('data-color-mode', 'dark');
+                    document.documentElement.setAttribute('data-dark-theme', 'dark');
+                    themeIcon.className = 'fas fa-moon';
+                    themeText.textContent = 'Тёмная';
+                    localStorage.setItem('theme', 'dark');
+                }
+            });
+            const animatedElements = document.querySelectorAll('.animate');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            animatedElements.forEach(el => {
+                el.style.opacity = 0;
+                el.style.transform = 'translateY(10px)';
+                el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(el);
+            });
+        });
+
+        function copyCode(button) {
+            const codeElement = button.previousElementSibling;
+            const textArea = document.createElement('textarea');
+            textArea.value = codeElement.textContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            
+            const originalText = button.textContent;
+            button.textContent = 'Скопировано!';
+            setTimeout(() => {
+                button.textContent = originalText;
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
